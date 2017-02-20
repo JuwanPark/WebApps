@@ -33,108 +33,55 @@
 	</filter>
 </defs>
 
-	<rect id="background" x="0" y="0" width="300" height="400" fill="#0a0a0a" />
-
-	<g id="backblock">
-		<rect x="110" y="170" width="30" height="20" />
-		<rect x="110" y="130" width="30" height="20" />
-		<rect x="110" y="90" width="30" height="20" />
-		<rect x="110" y="50" width="30" height="20" />
-		<rect x="60" y="170" width="30" height="20" />
-		<rect x="60" y="130" width="30" height="20" />
-		<rect x="60" y="90" width="30" height="20" />
-		<rect x="60" y="50" width="30" height="20" />
-		<rect x="10" y="170" width="30" height="20" />
-		<rect x="10" y="130" width="30" height="20" />
-		<rect x="10" y="90" width="30" height="20" />
-		<rect x="10" y="50" width="30" height="20" />
-
-		<rect x="160" y="170" width="30" height="20" />
-		<rect x="160" y="130" width="30" height="20" />
-		<rect x="160" y="90" width="30" height="20" />
-		<rect x="160" y="50" width="30" height="20" />
-
-		<rect x="210" y="170" width="30" height="20" />
-		<rect x="210" y="130" width="30" height="20" />
-		<rect x="210" y="90" width="30" height="20" />
-		<rect x="210" y="50" width="30" height="20" />
-		<rect x="210" y="10" width="30" height="20" />
-
-		<rect x="260" y="170" width="30" height="20" />
-		<rect x="260" y="130" width="30" height="20" />
-		<rect x="260" y="90" width="30" height="20" />
-
-		<rect x="10" y="370" width="30" height="20" />
-
-		<rect x="60" y="370" width="30" height="20" />
-		<rect x="60" y="330" width="30" height="20" />
-		<rect x="60" y="290" width="30" height="20" />
-		<rect x="60" y="250" width="30" height="20" />
-
-		<rect x="160" y="370" width="30" height="20" />
-		<rect x="160" y="330" width="30" height="20" />
-		<rect x="160" y="290" width="30" height="20" />
-		<rect x="110" y="370" width="30" height="20" />
-		<rect x="110" y="330" width="30" height="20" />
-		<rect x="110" y="290" width="30" height="20" />
-
-		<rect x="260" y="370" width="30" height="20" />
-		<rect x="260" y="330" width="30" height="20" />
-		<rect x="260" y="290" width="30" height="20" />
-		<rect x="210" y="370" width="30" height="20" />
-		<rect x="210" y="330" width="30" height="20" />
-		<rect x="210" y="290" width="30" height="20" />
-	</g>
-
 	<g id="luminant" filter="url(#xglow)">
-		<rect class="year" x="110" y="170" width="30" height="20" />
-		<rect class="year" x="110" y="130" width="30" height="20" />
-		<rect class="year" x="110" y="90" width="30" height="20" />
-		<rect class="year" x="110" y="50" width="30" height="20" />
-		<rect class="year" x="60" y="170" width="30" height="20" />
-		<rect class="year" x="60" y="130" width="30" height="20" />
-		<rect class="year" x="60" y="90" width="30" height="20" />
-		<rect class="year" x="60" y="50" width="30" height="20" />
-		<rect class="year" x="10" y="170" width="30" height="20" />
-		<rect class="year" x="10" y="130" width="30" height="20" />
-		<rect class="year" x="10" y="90" width="30" height="20" />
-		<rect class="year" x="10" y="50" width="30" height="20" />
+		<rect class="year" x="110" y="170" width="30" height="20" fill="transparent" />
+		<rect class="year" x="110" y="130" width="30" height="20" fill="transparent" />
+		<rect class="year" x="110" y="90" width="30" height="20" fill="transparent" />
+		<rect class="year" x="110" y="50" width="30" height="20" fill="transparent" />
+		<rect class="year" x="60" y="170" width="30" height="20" fill="transparent" />
+		<rect class="year" x="60" y="130" width="30" height="20" fill="transparent" />
+		<rect class="year" x="60" y="90" width="30" height="20" fill="transparent" />
+		<rect class="year" x="60" y="50" width="30" height="20" fill="transparent" />
+		<rect class="year" x="10" y="170" width="30" height="20" fill="transparent" />
+		<rect class="year" x="10" y="130" width="30" height="20" fill="transparent" />
+		<rect class="year" x="10" y="90" width="30" height="20" fill="transparent" />
+		<rect class="year" x="10" y="50" width="30" height="20" fill="transparent" />
 
-		<rect class="month" x="160" y="170" width="30" height="20" />
-		<rect class="month" x="160" y="130" width="30" height="20" />
-		<rect class="month" x="160" y="90" width="30" height="20" />
-		<rect class="month" x="160" y="50" width="30" height="20" />
+		<rect class="month" x="160" y="170" width="30" height="20" fill="transparent" />
+		<rect class="month" x="160" y="130" width="30" height="20" fill="transparent" />
+		<rect class="month" x="160" y="90" width="30" height="20" fill="transparent" />
+		<rect class="month" x="160" y="50" width="30" height="20" fill="transparent" />
 
-		<rect class="date" x="210" y="170" width="30" height="20" />
-		<rect class="date" x="210" y="130" width="30" height="20" />
-		<rect class="date" x="210" y="90" width="30" height="20" />
-		<rect class="date" x="210" y="50" width="30" height="20" />
-		<rect class="date" x="210" y="10" width="30" height="20" />
+		<rect class="date" x="210" y="170" width="30" height="20" fill="transparent" />
+		<rect class="date" x="210" y="130" width="30" height="20" fill="transparent" />
+		<rect class="date" x="210" y="90" width="30" height="20" fill="transparent" />
+		<rect class="date" x="210" y="50" width="30" height="20" fill="transparent" />
+		<rect class="date" x="210" y="10" width="30" height="20" fill="transparent" />
 
-		<rect class="day" x="260" y="170" width="30" height="20" />
-		<rect class="day" x="260" y="130" width="30" height="20" />
-		<rect class="day" x="260" y="90" width="30" height="20" />
+		<rect class="day" x="260" y="170" width="30" height="20" fill="transparent" />
+		<rect class="day" x="260" y="130" width="30" height="20" fill="transparent" />
+		<rect class="day" x="260" y="90" width="30" height="20" fill="transparent" />
 
-		<rect id="ampm" x="10" y="370" width="30" height="20" />
+		<rect id="ampm" x="10" y="370" width="30" height="20" fill="transparent" />
 
-		<rect class="hour" x="60" y="370" width="30" height="20" />
-		<rect class="hour" x="60" y="330" width="30" height="20" />
-		<rect class="hour" x="60" y="290" width="30" height="20" />
-		<rect class="hour" x="60" y="250" width="30" height="20" />
+		<rect class="hour" x="60" y="370" width="30" height="20" fill="transparent" />
+		<rect class="hour" x="60" y="330" width="30" height="20" fill="transparent" />
+		<rect class="hour" x="60" y="290" width="30" height="20" fill="transparent" />
+		<rect class="hour" x="60" y="250" width="30" height="20" fill="transparent" />
 
-		<rect class="min" x="160" y="370" width="30" height="20" />
-		<rect class="min" x="160" y="330" width="30" height="20" />
-		<rect class="min" x="160" y="290" width="30" height="20" />
-		<rect class="min" x="110" y="370" width="30" height="20" />
-		<rect class="min" x="110" y="330" width="30" height="20" />
-		<rect class="min" x="110" y="290" width="30" height="20" />
+		<rect class="min" x="160" y="370" width="30" height="20" fill="transparent" />
+		<rect class="min" x="160" y="330" width="30" height="20" fill="transparent" />
+		<rect class="min" x="160" y="290" width="30" height="20" fill="transparent" />
+		<rect class="min" x="110" y="370" width="30" height="20" fill="transparent" />
+		<rect class="min" x="110" y="330" width="30" height="20" fill="transparent" />
+		<rect class="min" x="110" y="290" width="30" height="20" fill="transparent" />
 
-		<rect class="sec" x="260" y="370" width="30" height="20" />
-		<rect class="sec" x="260" y="330" width="30" height="20" />
-		<rect class="sec" x="260" y="290" width="30" height="20" />
-		<rect class="sec" x="210" y="370" width="30" height="20" />
-		<rect class="sec" x="210" y="330" width="30" height="20" />
-		<rect class="sec" x="210" y="290" width="30" height="20" />
+		<rect class="sec" x="260" y="370" width="30" height="20" fill="transparent" />
+		<rect class="sec" x="260" y="330" width="30" height="20" fill="transparent" />
+		<rect class="sec" x="260" y="290" width="30" height="20" fill="transparent" />
+		<rect class="sec" x="210" y="370" width="30" height="20" fill="transparent" />
+		<rect class="sec" x="210" y="330" width="30" height="20" fill="transparent" />
+		<rect class="sec" x="210" y="290" width="30" height="20" fill="transparent" />
 	</g>
 
 	<g filter="url(#glow)">
