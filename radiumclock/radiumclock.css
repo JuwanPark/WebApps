@@ -25,11 +25,6 @@ body {
 	text-shadow: 0 0 8px;
 }
 
-#clockarea object.bin {
-	margin: 0 auto 10px auto;
-	text-shadow: 0 0 8px;
-}
-
 #clockarea p {
 	color: #00ffaa;
 	font-size: 16px;
@@ -38,20 +33,37 @@ body {
 	text-shadow: 0 0 4px #00ffaa;
 }
 
-#canv {
+#clockcontainer {
 	display: block;
-	margin: 30px auto -320px auto;
+	width: 320px;
+	margin: 30px auto 30px auto;
+	max-width: 100%;
 }
 
-#canv_bin {
+#binarycontainer {
 	display: block;
-	margin: 10px auto -400px auto;
+	width: 300px;
+	margin: 10px auto 10px auto;
+	max-width: 100%;
 }
 
-#radiumclock {
+#canv, #canv_bin {
 	display: block;
-	margin: 0 auto 30px auto;
+	float: left;
+	max-width: 100%;
+}
+
+#canv { margin-bottom: -320px; }
+#canv_bin { margin-bottom: -400px; }
+
+#radiumclock, #clockarea object.bin {
+	display: block;
 	position: relative;
+}
+
+object, object svg {
+	max-width: 100%;
+	height: auto;
 }
 
 #clockarea a:link, #clockarea a:visited {
