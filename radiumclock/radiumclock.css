@@ -1,0 +1,60 @@
+@charset "utf-8";
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
+body {
+	background-color: #0a0a0a;
+	margin: 0 0 0 0;
+	font-family: 'Ubuntu', 'Nanum Gothic', sans-serif;
+}
+
+#clockarea {
+	text-align: center;
+	line-height: 1;
+}
+
+#clockarea h1 {
+	font-weight: 400;
+	font-size: 36px;
+	line-height: 40px;
+	margin: 40px 0 10px 0;
+	text-shadow: 0 0 8px;
+}
+
+#clockarea h1.bin {
+	margin: 20px 0 0 0;
+	text-shadow: 0 0 8px;
+}
+
+#clockarea object.bin {
+	margin: 10px 0 10px 0;
+	text-shadow: 0 0 8px;
+}
+
+#clockarea p {
+	color: #00ffaa;
+	font-size: 16px;
+	line-height: 20px;
+	margin: 10px 0 10px 0;
+	text-shadow: 0 0 4px #00ffaa;
+}
+
+#radiumclock {
+	margin: 30px 0 30px 0;
+}
+
+#clockarea a:link, #clockarea a:visited {
+	color: #00aaff;
+	text-decoration: none;
+	text-shadow: 0 0 4px #00aaff;
+}
+
+#clockarea a:active, #clockarea a:hover {
+	color: #ffffff;
+	text-decoration: none;
+	text-shadow: 0 0 8px #00aaff, 0 0 8px #00aaff;
+}
+
+a {
+	-webkit-transition: color .25s, text-shadow .25s;
+	transition:         color .25s, text-shadow .25s;
+}
