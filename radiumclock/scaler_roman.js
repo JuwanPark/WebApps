@@ -1,0 +1,52 @@
+window.onload = function() {
+	WebFontConfig = {
+	  google:{ families: ['Tinos'] },
+	  active: function(){start();},
+	};
+	(function(){
+	  var wf = document.createElement("script");
+	  wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js';
+	  wf.async = 'true';
+	  document.head.appendChild(wf);
+	})();
+
+	var c = document.getElementById('canv');
+	var ctx = c.getContext("2d");
+	var romans = ["XII", "I", "II", "III", "IIII", "V", "VI", "VII", "VIII", "IX", "X", "XI"];
+	
+	function start() {
+		var i = 0, j = 0, x = 0, y = 0;
+
+		ctx.font = '36px "Tinos"';
+		ctx.textAlign = "center";
+		ctx.textBaseline="middle";
+		ctx.fillStyle = "#2aff6a";
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = "#2aff6a";
+
+		for (i=0; i<12; i++) {
+			j = (i % 12) * 30 * (Math.PI / 180);
+			x = 160 + Math.round(Math.sin(j) * 130);
+			y = 160 - Math.round(Math.cos(j) * 130);
+			ctx.translate(x, y);
+			ctx.rotate(j);
+			ctx.scale(0.75, 1);
+			ctx.fillText(romans[i], 0, -4);
+			ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset Transform
+		}
+		
+		for (i=0; i<60; i++) {
+			j = i * 6 * (Math.PI / 180);
+			x = 160 + Math.round(Math.sin(j) * 105);
+			y = 160 - Math.round(Math.cos(j) * 105);
+			if (i % 5 == 0) {
+				ctx.translate(x, y);
+				ctx.rotate(j);
+				ctx.fillRect(-1, -4, 2, 8);
+				ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset Transform
+			} else {
+				ctx.fillRect(x-1, y-1, 2, 2);
+			}
+		}
+	}
+}
