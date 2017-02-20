@@ -22,21 +22,6 @@
 	</filter>
 </defs>
 
-	<g filter="url(#glow)">
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="225" y="47">1</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="273" y="95">2</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="290" y="160">3</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="273" y="225">4</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="225" y="273">5</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="160" y="290">6</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="95" y="273">7</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="47" y="225">8</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="30" y="160">9</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="47" y="95">10</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="95" y="47">11</text>
-		<text class="hno radium-fill" text-anchor="middle" alignment-baseline="middle" x="160" y="30">12</text>
-	</g>
-
 	<g id="hour">
 		<polygon points="156,75 164,75 164,80 165,80 165,88 166,88 166,132 165,132 165,160
 		                 155,160 155,132 154,132 154,88 155,88 155,80 156,80" fill="#000000" />
@@ -55,4 +40,5 @@
 		                 159,170 158,170 158,150 159,150" class="radium-orange" filter="url(#glow)" />
 		<circle class="radium-orange" cx="160" cy="160" r="4" filter="url(#glow)" />
 	</g>
+
 </svg>
