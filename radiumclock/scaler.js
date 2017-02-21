@@ -27,8 +27,8 @@ window.onload = function() {
 			j = (i % 12) * 30 * (Math.PI / 180);
 			x = 160 + Math.round(Math.sin(j) * 130);
 			y = 160 - Math.round(Math.cos(j) * 130);
-			ctx.translate(x, y);
-			ctx.fillText(i, 0, -4);
+			ctx.translate(x, y-2);
+			ctx.fillText(i, 0, 0);
 			ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset Transform
 		}
 		

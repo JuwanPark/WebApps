@@ -28,8 +28,8 @@ window.onload = function() {
 			y = 160 - Math.round(Math.cos(k) * 130);
 			ctx.fillStyle = "hsl(" + j + ", 100%, 50%)";
 			ctx.shadowColor = "hsl(" + j + ", 100%, 50%)";
-			ctx.translate(x, y);
-			ctx.fillText(i, 0, -4);
+			ctx.translate(x, y-2);
+			ctx.fillText(i, 0, 0);
 			ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset Transform
 		}
 		
