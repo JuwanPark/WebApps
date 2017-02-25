@@ -10,9 +10,17 @@ function rightopen(vv) {
 	if ($(window).width() == $("main").width() ) {
 		return false;
 	} else if (vv) {
-		$("main").animate({"margin-left": "-100%"}, 250);
+		// Open dest
+		$("main").css("margin-left", "0");
+		$("main").animate({"margin-left": "-100%"}, 250, "swing", function(){
+			$("#code_dest").focus();
+		});
 	} else {
-		$("main").animate({"margin-left": "0%"}, 250);
+		// Open src
+		$("main").css("margin-left", "-100%");
+		$("main").animate({"margin-left": "0"}, 250, "swing", function(){
+			$("#code_src").focus();
+		});
 	}
 	return true;
 }
