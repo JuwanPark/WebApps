@@ -68,6 +68,10 @@ function get_hangul_img (cho = 0, jung = 0, jong = 0) {
 		if      (cho_y == 0)               { cho_y = 5; }
 		else if (cho_y == 1 || cho_y == 2) { cho_y = 6; }
 		else if (cho_y == 3 || cho_y == 4) { cho_y = 7; }
+		if (jong >= 16) {
+			jong -= 16;
+			jong_y += 8;
+		}
 		img_jong = ctx2.getImageData( jong * 16, (jong_y+4) * 16, 16, 16);
 	} else { // No jongseong
 		img_jong = ctx2.getImageData(240, 240, 16, 16);  // Empty
