@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ticker cols="16" rows="1">
+	<text in="upward" pause="2" out="upward">    Welcome!</text>
+	<text color="6" delay="3">Hangul LED Ticker v0.1</text>
+	<text in="downward" pause="2" out="leftward" color="12">http://parkjuwan.dothome.co.kr/</text>
+	<text color="10">한글`8을 `0써 `d볼`c까요? ㄱㄴㄷ`a♥</text>
+</ticker>

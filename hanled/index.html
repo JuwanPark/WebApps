@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+		<title>Hangul LED Ticker</title>
+	</head>
+	<body>
+		<!-- Font template (Hidden) -->
+		<div style="display: none;">
+			<img id="basic_img" alt="basic" src="img/basic_norm.png" />
+			<img id="han_img" alt="hangul"  src="img/han_iyg.png" />
+			<img id="spe_img" alt="specs"  src="img/specs.png" />
+			<canvas width="256" height="48" id="basic_canv"></canvas>
+			<canvas width="432" height="256" id="han_canv"></canvas>
+			<canvas width="256" height="512" id="spe_canv"></canvas>
+		</div>
+		<div id="container">
+			<canvas width="0" height="0" id="ticker"></canvas>
+		</div>
+		<script type="text/javascript" src="run.js"></script>
+	</body>
+</html>

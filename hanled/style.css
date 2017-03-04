@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+body {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	/* background: #000000;
+	color: #aaaaaa; */
+	overflow: hidden;
+}
+
+#container {
+	background-color: #000000;
+	background-image: url('img/ledbg.png');
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+#container canvas {
+	display: block;
+	position: relative;
+	left: 0;
+	top: 0;
+}
