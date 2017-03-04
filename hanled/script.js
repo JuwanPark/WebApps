@@ -58,23 +58,34 @@ function get_baschar_img (cod = 32) {
 function get_hangul_img (cho = 0, jung = 0, jong = 0) {
 	var c = document.getElementById("han_canv");
 	var ctx = c.getContext("2d");
+	var c2 = document.getElementById("han2_canv");
+	var ctx2 = c2.getContext("2d");
 	var cho_y = jung_to_cho[jung], jung_y = 0, jong_y = jung_to_jong[jung];
 	var img_cho, img_jung, img_jong, img_combined;
-	img_combined = ctx.getImageData(416, 176, 16, 16);  // Empty
-	if (jong > 0) { // Jongseong
+	img_combined = ctx2.getImageData(240, 240, 16, 16);  // Empty
+	jong--;
+	if (jong >= 0) { // Jongseong
 		if      (cho_y == 0)               { cho_y = 5; }
 		else if (cho_y == 1 || cho_y == 2) { cho_y = 6; }
 		else if (cho_y == 3 || cho_y == 4) { cho_y = 7; }
-		img_jong = ctx.getImageData( (jong-1) * 16, (jong_y+12) * 16, 16, 16);
+		img_jong = ctx2.getImageData( jong * 16, (jong_y+4) * 16, 16, 16);
 	} else { // No jongseong
-		img_jong = ctx.getImageData(416, 176, 16, 16);  // Empty
+		img_jong = ctx2.getImageData(240, 240, 16, 16);  // Empty
 	}
 	// Choseong
+	if (cho >= 16) {
+		cho -= 16;
+		cho_y += 8;
+	}
 	img_cho = ctx.getImageData(cho * 16, cho_y * 16, 16, 16);
 	// Jungseong
 	if (cho != 0 && cho != 10) { jung_y = 1; }   // Except choseong ㄱ or ㅋ
 	if (jong > 0)              { jung_y += 2; }  // Wiht jongseong
-	img_jung = ctx.getImageData(jung * 16, (jung_y+8) * 16, 16, 16);
+	if (jung >= 16) {
+		jung -= 16;
+		jung_y += 8;
+	}
+	img_jung = ctx2.getImageData(jung * 16, jung_y * 16, 16, 16);
 	// Combine
 	for (var i = 0; i < 1024; i+=4) {
 		if (img_cho.data[i+3] + img_jung.data[i+3] + img_jong.data[i+3] == 0) { // Empty px
@@ -220,14 +231,27 @@ $(document).ready(function() {
 		var img = document.getElementById("han_img");
 		var c = document.getElementById("han_canv");
 		var ctx = c.getContext("2d");
+		var c2 = document.getElementById("han2_canv");
+		var ctx2 = c2.getContext("2d");
 		ctx.drawImage(img, 0, 0);
-		var imgData = ctx.getImageData(0, 0, 432, 256);
+		ctx.drawImage(img, -256, 128);
+		ctx.clearRect(128, 128, 128, 128);
+		ctx2.drawImage(img, -256, 0);
+		ctx2.drawImage(img, 0, -128);
+		var imgData = ctx.getImageData(0, 0, 256, 256);
 		for (var i=0; i<imgData.data.length; i+=4) {
 			if (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2] == 0) {
 				imgData.data[i+3] = 0;
 			}
 		}
 		ctx.putImageData(imgData, 0, 0);
+		imgData = ctx2.getImageData(0, 0, 256, 256);
+		for (var i=0; i<imgData.data.length; i+=4) {
+			if (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2] == 0) {
+				imgData.data[i+3] = 0;
+			}
+		}
+		ctx2.putImageData(imgData, 0, 0);
 		prepared += 1;
 	});
 	$("#spe_img").ready(function() {

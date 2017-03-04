@@ -5,7 +5,6 @@ body {
 	padding: 0 0 0 0;
 	background: #000000;
 	color: #aaaaaa;
-	overflow: hidden;
 }
 
 #container {
@@ -13,6 +12,11 @@ body {
 	background-image: url('img/ledbg.png');
 	overflow: hidden;
 	box-sizing: border-box;
+}
+
+img, canvas {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
 }
 
 #container canvas {
