@@ -60,9 +60,9 @@ img, canvas {
 /* Blink Animation */
 @keyframes blinking {
 	  0%  { opacity: 0; }
-	 45%  { opacity: 0; }
+	 47%  { opacity: 0; }
 	 50%  { opacity: 1; }
-	 95%  { opacity: 1; }
+	 97%  { opacity: 1; }
 	100%  { opacity: 0; }
 }
 
