@@ -2,7 +2,7 @@
 var rft = setInterval(function(){ ready_for_ticker() }, 10);
 var anima;
 function ready_for_ticker () {
-	if (prepared >= 4) {
+	if (prepared >= 5) {
 		clearInterval(rft);
 		startload();
 	}
@@ -35,6 +35,7 @@ function startload() {
 					$("#blinder").css("width", t_width + "px");
 					$("#blinder").css("height", t_height + "px");
 					$("#blinder").css("margin-bottom", t_height * -1 + "px");
+
 					$("#blinker").css("width", t_width + "px");
 					$("#blinker").css("height", t_height + "px");
 					$("#blinker").css("margin-bottom", t_height * -1 + "px");
@@ -85,6 +86,7 @@ function startload() {
 
 function start_item (item_no) {
 	clearticker();
+	$("#anisym").html("");
 	var txt = list_of_item[item_no]["text"];
 	var cur_dt = new Date();
 	
@@ -347,12 +349,12 @@ function outing_item (item_no) {
 	}
 	if (finished) {
 		clearInterval(anima);
-		$("#blinker").removeClass("blinking");
+		$("#container").removeClass("blinking");
 		setTimeout(function(){
 			current_item++;
 			if (current_item >= list_of_item.length)  { current_item -= list_of_item.length; }
 			start_item(current_item);
-			$("#blinker").addClass("blinking");
+			$("#container").addClass("blinking");
 		}, list_of_item[item_no]["next-term"] * 500);
 	}
 }

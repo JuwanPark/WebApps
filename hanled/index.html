@@ -17,17 +17,21 @@
 			<img width="432" height="256" id="han_img" alt="hangul" src="img/han_iyg.png" />
 			<img width="192" height="128" id="natja_img" alt="natja" src="img/natja.png" />
 			<img width="256" height="512" id="spe_img" alt="specs"  src="img/specs.png" />
+			<img width="256" height="64" id="ani_img" alt="anisymbol"  src="img/ani_symbol.png" />
 			<canvas width="256" height="48" id="basic_canv"></canvas>
 			<canvas width="256" height="256" id="han_canv"></canvas>
 			<canvas width="256" height="256" id="han2_canv"></canvas>
 			<canvas width="256" height="512" id="spe_canv"></canvas>
+			<canvas width="256" height="64" id="ani_canv"></canvas>
+			<canvas width="144" height="144" id="ani_temp"></canvas>
 		</div>
-		<div id="container">
+		<div id="container" class="blinking">
 			<div id="blinder"></div>
-			<div id="blinker" class="blinking"></div>
+			<div id="blinker"></div>
 			<div id="mover">
 				<canvas width="0" height="0" id="blinkchar"></canvas>
 				<canvas width="0" height="0" id="ticker"></canvas>
+				<div id="anisym"></div>
 			</div>
 		</div>
 		<script type="text/javascript" src="run.js"></script>

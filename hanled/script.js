@@ -123,7 +123,7 @@ function drawchr (col, row, color, imgdat, chrwidth = 1, target = "ticker") {
 	ctx.shadowOffsetX = 0;
 	ctx.shadowOffsetY = 0;
 	var ix, iy;
-	for (i = 0; i < 128 * chrwidth; i++) {
+	for (var i = 0; i < 128 * chrwidth; i++) {
 		ix = (i % (8 * chrwidth) ) * 4 + col * 32 + offset_x * 4;
 		iy = Math.floor(i / (8 * chrwidth) ) * 4 + row * 64 + offset_y * 4;
 		if ( imgdat.data[i*4+3] > 0 ^ reversed ) {
@@ -137,11 +137,44 @@ function drawchr (col, row, color, imgdat, chrwidth = 1, target = "ticker") {
 	}
 }
 
+function drawani (col, row, color, symno) {
+	var cs = document.getElementById("ani_canv");
+	var ctxs = cs.getContext("2d");
+	var c = document.getElementById("ani_temp");
+	var ctx = c.getContext("2d");
+	ctx.clearRect(0, 0, c.width, c.height);
+	ctx.shadowColor = text_colors[color]["norm"];
+	ctx.shadowOffsetX = 0;
+	ctx.shadowOffsetY = 0;
+	var ix, iy, imgdat;
+	var jx = symno % 4, jy = Math.floor(symno / 4);
+
+	for (var j = 0; j < 4; j++) {
+		imgdat = ctxs.getImageData( (jx * 4 + j) * 16, jy * 16, 16, 16);
+		for (var i = 0; i < 256; i++) {
+			ix = (i % 16) * 4 + (j % 2) * 72 + 4;
+			iy = Math.floor(i / 16) * 4 + Math.floor(j / 2) * 72 + 4;
+			if ( imgdat.data[i*4+3] > 0 ^ reversed ) {
+				ctx.fillStyle = text_colors[color]["norm"];
+				ctx.shadowBlur = 5;
+				ctx.fillRect(ix + .5, iy + .5, 3, 3);
+				ctx.fillStyle = text_colors[color]["high"];
+				ctx.shadowBlur = 0;
+				ctx.fillRect(ix + 1, iy + 1, 2, 2);
+			}
+		}
+	}
+	$("#anisym").append('<span class="ani" style="left: ' + (col * 32 + offset_x * 4 - 4) +
+		'px; top: ' + (row * 64 + offset_y * 4 - 4) + 'px; background-image: url(\'' +
+		c.toDataURL('image/png') + '\');"></span>');
+}
+
 function disptxt (txt, color) {
 	// reset
 	var maxcols = 0, maxrows = 1;
 	var curcols = 0, currows = 0;
 	var special_flag = false;
+	var ani_flag = false;
 	var img_chrdat;
 	var curcolor = color;
 	var target = "ticker";
@@ -159,9 +192,18 @@ function disptxt (txt, color) {
 				curcols -= 1;
 			}
 			special_flag = false;
+		} else if (ani_flag) {
+			if ( !isNaN( parseInt(txt.substr(i, 1), 16) ) ) { // ani
+				curcols += 2;
+			} else if (txt.charCodeAt(i) >= 32 && txt.charCodeAt(i) < 127) {
+				curcols += 1;
+			}
+			ani_flag = false;
 		} else {
 			if (txt.substr(i, 1) == "`" ) {
 				special_flag = true;
+			} else if (txt.substr(i, 1) == "$" ) {
+				ani_flag = true;
 			} else if (txt.charCodeAt(i) < 880) {
 				curcols += 1;
 			} else {
@@ -173,6 +215,7 @@ function disptxt (txt, color) {
 	// Reset current cols and special flag
 	curcols = 0;
 	special_flag = false;
+	ani_flag = false;
 	offset_x = 0;  offset_y = 0;
 	// Resize
 	$("#blinkchar").attr("width", maxcols * 32);
@@ -181,6 +224,12 @@ function disptxt (txt, color) {
 
 	$("#ticker").attr("width", maxcols * 32);
 	$("#ticker").attr("height", maxrows * 64);
+	$("#ticker").css("margin-bottom", (maxrows * -64) + "px");
+
+	$("#anisym").css("width", maxcols * 32);
+	$("#anisym").css("height", maxrows * 64);
+	$("#anisym").css("margin-bottom", (maxrows * -64) + "px");
+
 	// Draw
 	for (var i = 0; i < txt.length; i++) {
 		if (special_flag) {
@@ -224,9 +273,22 @@ function disptxt (txt, color) {
 				}
 			}
 			special_flag = false;
+		} else if (ani_flag) {
+			if ( !isNaN( parseInt(txt.substr(i, 1), 16) ) ) { // ani
+				drawani(curcols, currows, curcolor, parseInt(txt.substr(i, 1), 16) );
+				curcols += 2;
+			} else if (txt.charCodeAt(i) >= 32 && txt.charCodeAt(i) < 127) {
+				// Basic
+				img_chrdat = get_baschar_img( txt.charCodeAt(i) );
+				drawchr(curcols, currows, curcolor, img_chrdat, 1, target);
+				curcols += 1;
+			}
+			ani_flag = false;
 		} else {
 			if (txt.substr(i, 1) == "`" ) {
 				special_flag = true;
+			} else if (txt.substr(i, 1) == "$" ) {
+				ani_flag = true;
 			} else if (txt.charCodeAt(i) >= 32 && txt.charCodeAt(i) < 127) {
 				// Basic
 				img_chrdat = get_baschar_img( txt.charCodeAt(i) );
@@ -262,6 +324,10 @@ function clearticker() {
 	var c = document.getElementById("ticker");
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
+	
+	c = document.getElementById("blinkchar");
+	ctx = c.getContext("2d");
+	ctx.clearRect(0, 0, c.width, c.height);
 }
 
 
@@ -282,6 +348,7 @@ $(document).ready(function() {
 	$("#blinder").css("width", t_width + "px");
 	$("#blinder").css("height", t_height + "px");
 	$("#blinder").css("margin-bottom", t_height * -1 + "px");
+
 	$("#blinker").css("width", t_width + "px");
 	$("#blinker").css("height", t_height + "px");
 	$("#blinker").css("margin-bottom", t_height * -1 + "px");
@@ -314,6 +381,21 @@ $(document).ready(function() {
 		ctx.putImageData(imgData, 0, 0);
 		prepared += 1;
 	});
+	$("#ani_img").ready(function() {
+		var img = document.getElementById("ani_img");
+		var c = document.getElementById("ani_canv");
+		var ctx = c.getContext("2d");
+		ctx.drawImage(img, 0, 0);
+		var imgData = ctx.getImageData(0, 0, 256, 64);
+		for (var i=0; i<imgData.data.length; i+=4) {
+			if (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2] == 0) {
+				imgData.data[i+3] = 0;
+			}
+		}
+		ctx.putImageData(imgData, 0, 0);
+		prepared += 1;
+	});
+
 	$("#han_img").ready(function() { han_prepared += 1; });
 	$("#natja_img").ready(function() { han_prepared += 1; });
 	function hangul_load() {

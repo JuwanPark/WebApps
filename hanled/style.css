@@ -42,15 +42,19 @@ img, canvas {
 	top: 0;
 }
 
-#container canvas {
+#container canvas, #anisym {
 	position: relative;
 	display: block;
 	left: 0;
 	top: 0;
 }
 
-#blinkchar {  z-index: 4; }
-#ticker    {  z-index: 8; }
+#blinkchar  {  z-index: 4; }
+#ticker     {  z-index: 8; }
+#anisym     {
+	z-index: 8;
+	overflow: hidden;
+}
 
 #before_desc {
 	height: 0;
@@ -66,8 +70,39 @@ img, canvas {
 	100%  { opacity: 0; }
 }
 
-.blinking {
-	animation-name: blinking;
-	animation-duration: 2s;
-	animation-iteration-count: infinite;
+@keyframes anisymbol {
+	  0%  { background-position:   0px   0px; }
+	 25%  { background-position: -72px   0px; }
+	 50%  { background-position:   0px -72px; }
+	 75%  { background-position: -72px -72px; }
+	100%  { background-position:   0px   0px; }
+}
+
+.ani {
+	display: block;
+	position: relative;
+	float: left;
+	width: 72px;
+	height: 72px;
+	margin-bottom: -72px;
+	margin-right: -72px;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	-webkit-animation-name: anisymbol;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: steps(1);
+	        animation-name: anisymbol;
+	        animation-duration: 1s;
+	        animation-iteration-count: infinite;
+	        animation-timing-function: steps(1);
+}
+
+.blinking #blinker {
+	-webkit-animation-name: blinking;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-iteration-count: infinite;
+	        animation-name: blinking;
+	        animation-duration: 2s;
+	        animation-iteration-count: infinite;
 }
