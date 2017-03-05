@@ -21,28 +21,53 @@ a:hover { color: #d4d4d4; }
 	box-sizing: border-box;
 }
 
-#blinder {
+#blinder, #blinker {
 	background-image: url('img/ledbg.png');
 	box-sizing: border-box;
-	opacity: 0;
 	position: relative;
-	z-index: 10;
+	opacity: 0;
 }
+
+#blinder { z-index: 10; }
+#blinker {  z-index: 6; }
 
 img, canvas {
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
 }
 
-#container canvas {
-	display: block;
+#mover {
 	position: relative;
 	left: 0;
 	top: 0;
-	z-index: 5;
 }
+
+#container canvas {
+	position: relative;
+	display: block;
+	left: 0;
+	top: 0;
+}
+
+#blinkchar {  z-index: 4; }
+#ticker    {  z-index: 8; }
 
 #before_desc {
 	height: 0;
 	border: none;
+}
+
+/* Blink Animation */
+@keyframes blinking {
+	  0%  { opacity: 0; }
+	 45%  { opacity: 0; }
+	 50%  { opacity: 1; }
+	 95%  { opacity: 1; }
+	100%  { opacity: 0; }
+}
+
+.blinking {
+	animation-name: blinking;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
 }

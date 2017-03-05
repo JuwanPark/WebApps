@@ -11,6 +11,29 @@ var list_of_item = [];
 var reversed = false;
 var current_item = 0;
 var def_term;
+var offset_x = 0, offset_y = 0;
+
+var dayname = [{"han": "일",  "eng": "Sun", "engs": "Sunday"},
+               {"han": "월",  "eng": "Mon", "engs": "Monday"},
+               {"han": "화",  "eng": "Tue", "engs": "Tuesday"},
+               {"han": "수",  "eng": "Wed", "engs": "Wednesday"},
+               {"han": "목",  "eng": "Thu", "engs": "Thursday"},
+               {"han": "금",  "eng": "Fri", "engs": "Friday"},
+               {"han": "토",  "eng": "Sat", "engs": "Saturday"}];
+var ampm = [{"han": "오전", "eng": "am", "engs": "AM"},
+            {"han": "오후", "eng": "pm", "engs": "PM"}];
+var monname = [{"eng": "Jan", "engs": "January"},
+               {"eng": "Feb", "engs": "February"},
+               {"eng": "Mar", "engs": "March"},
+               {"eng": "Apr", "engs": "April"},
+               {"eng": "May", "engs": "May"},
+               {"eng": "Jun", "engs": "June"},
+               {"eng": "Jul", "engs": "July"},
+               {"eng": "Aug", "engs": "August"},
+               {"eng": "Sep", "engs": "September"},
+               {"eng": "Oct", "engs": "October"},
+               {"eng": "Nov", "engs": "November"},
+               {"eng": "Dec", "engs": "December"}];
 
 /* Pre Function */
 function receive_get_data(param) {
@@ -93,20 +116,20 @@ function get_spechar_img (x = 0, y = 0) {
 	return img_combined;
 }
 
-function drawchr (col, row, color, imgdat, chrwidth = 1) {
-	var c = document.getElementById("ticker");
+function drawchr (col, row, color, imgdat, chrwidth = 1, target = "ticker") {
+	var c = document.getElementById(target);
 	var ctx = c.getContext("2d");
 	ctx.shadowColor = text_colors[color]["norm"];
 	ctx.shadowOffsetX = 0;
 	ctx.shadowOffsetY = 0;
 	var ix, iy;
 	for (i = 0; i < 128 * chrwidth; i++) {
-		ix = (i % (8 * chrwidth) ) * 4 + col * 32;
-		iy = Math.floor(i / (8 * chrwidth) ) * 4 + row * 64;
+		ix = (i % (8 * chrwidth) ) * 4 + col * 32 + offset_x * 4;
+		iy = Math.floor(i / (8 * chrwidth) ) * 4 + row * 64 + offset_y * 4;
 		if ( imgdat.data[i*4+3] > 0 ^ reversed ) {
 			ctx.fillStyle = text_colors[color]["norm"];
 			ctx.shadowBlur = 5;
-			ctx.fillRect(ix + .75, iy + .75, 2.5, 2.5);
+			ctx.fillRect(ix + .5, iy + .5, 3, 3);
 			ctx.fillStyle = text_colors[color]["high"];
 			ctx.shadowBlur = 0;
 			ctx.fillRect(ix + 1, iy + 1, 2, 2);
@@ -121,6 +144,7 @@ function disptxt (txt, color) {
 	var special_flag = false;
 	var img_chrdat;
 	var curcolor = color;
+	var target = "ticker";
 	reversed = false;
 	var cho_c = 0, jung_c = 0, jong_c = 0, spex = 0, spey = 0;
 	// calcuate text size
@@ -129,9 +153,10 @@ function disptxt (txt, color) {
 			if (txt.substr(i, 1) == "n") {
 				curcols = 0;
 				maxrows += 1;
-			} else if (txt.substr(i, 1) == "r") { // Reverse
-			} else if ( isNaN( parseInt(txt.substr(i, 1), 16) ) ) {
+			} else if (txt.substr(i, 1) == "`") { // `
 				curcols += 1;
+			} else if (txt.substr(i, 1) == "g") { // back
+				curcols -= 1;
 			}
 			special_flag = false;
 		} else {
@@ -148,23 +173,55 @@ function disptxt (txt, color) {
 	// Reset current cols and special flag
 	curcols = 0;
 	special_flag = false;
+	offset_x = 0;  offset_y = 0;
 	// Resize
+	$("#blinkchar").attr("width", maxcols * 32);
+	$("#blinkchar").attr("height", maxrows * 64);
+	$("#blinkchar").css("margin-bottom", (maxrows * -64) + "px");
+
 	$("#ticker").attr("width", maxcols * 32);
 	$("#ticker").attr("height", maxrows * 64);
 	// Draw
 	for (var i = 0; i < txt.length; i++) {
 		if (special_flag) {
-			if (txt.substr(i, 1) == "n") {
-				curcols = 0;
-				currows += 1;
-			} else if (txt.substr(i, 1) == "r") {
-				reversed = !reversed;
-			} else if ( !isNaN( parseInt(txt.substr(i, 1), 16) ) ) {
+			if ( !isNaN( parseInt(txt.substr(i, 1), 16) ) ) {
+				// Color change
 				curcolor = parseInt(txt.substr(i, 1), 16);
 			} else {
-				img_chrdat = get_baschar_img( txt.charCodeAt(i) );
-				drawchr(curcols, currows, curcolor, img_chrdat, 1);
-				curcols += 1;
+				switch ( txt.substr(i, 1) ) {
+					case "`":
+						img_chrdat = get_baschar_img(96);
+						drawchr(curcols, currows, curcolor, img_chrdat, 1);
+						curcols += 1;
+						break;
+					case "n": // New line
+						curcols = 0;  currows += 1;  break;
+					case "r": // Reversed
+						reversed = !reversed;        break;
+					case "k": // Blink
+						if (target == "ticker") { target = "blinkchar"; }
+						else { target = "ticker"; }  break;
+					case "^": // Offset Up 4p
+						offset_y -= 4;  break;
+					case "v": // Offset Down 4p
+						offset_y += 4;  break;
+					case "(": // Offset Left 4p
+						offset_x -= 4;  break;
+					case ")": // Offset Right 4p
+						offset_x += 4;  break;
+					case "~": // Offset Up 1p
+						offset_y -= 1;  break;
+					case "V": // Offset Down 1p
+						offset_y += 1;  break;
+					case "{": // Offset Left 1p
+						offset_x -= 1;  break;
+					case "}": // Offset Right 1p
+						offset_x += 1;  break;
+					case "x": // Offset Reset
+						offset_x = 0;  offset_y = 0;  break;
+					case "g": // Back -1 char
+						curcols -= 1;  break;
+				}
 			}
 			special_flag = false;
 		} else {
@@ -173,7 +230,7 @@ function disptxt (txt, color) {
 			} else if (txt.charCodeAt(i) >= 32 && txt.charCodeAt(i) < 127) {
 				// Basic
 				img_chrdat = get_baschar_img( txt.charCodeAt(i) );
-				drawchr(curcols, currows, curcolor, img_chrdat, 1);
+				drawchr(curcols, currows, curcolor, img_chrdat, 1, target);
 				curcols += 1;
 			} else if (txt.charCodeAt(i) >= 44032 && txt.charCodeAt(i) <= 55203) {
 				// Hangul
@@ -181,19 +238,19 @@ function disptxt (txt, color) {
 				jung_c = Math.floor( ( (txt.charCodeAt(i) - 44032) % 588) / 28);
 				jong_c = (txt.charCodeAt(i) - 44032) % 28;
 				img_chrdat = get_hangul_img(cho_c, jung_c, jong_c);
-				drawchr(curcols, currows, curcolor, img_chrdat, 2);
+				drawchr(curcols, currows, curcolor, img_chrdat, 2, target);
 				curcols += 2;
 			} else if (txt.charCodeAt(i) >= 12593 && txt.charCodeAt(i) <= 12686) {
 				// Natja
 				img_chrdat = get_natja_img(txt.charCodeAt(i) - 12593);
-				drawchr(curcols, currows, curcolor, img_chrdat, 2);
+				drawchr(curcols, currows, curcolor, img_chrdat, 2, target);
 				curcols += 2;
 			} else {
 				if ( han_specs.indexOf(txt.substr(i, 1) ) >= 0 ) {
 					spex = han_specs.indexOf(txt.substr(i, 1) ) % 16;
 					spey = Math.floor(han_specs.indexOf(txt.substr(i, 1) ) / 16);
 					img_chrdat = get_spechar_img(spex, spey);
-					drawchr(curcols, currows, curcolor, img_chrdat, 2);
+					drawchr(curcols, currows, curcolor, img_chrdat, 2, target);
 				}
 				curcols += 2;
 			}
@@ -225,6 +282,9 @@ $(document).ready(function() {
 	$("#blinder").css("width", t_width + "px");
 	$("#blinder").css("height", t_height + "px");
 	$("#blinder").css("margin-bottom", t_height * -1 + "px");
+	$("#blinker").css("width", t_width + "px");
+	$("#blinker").css("height", t_height + "px");
+	$("#blinker").css("margin-bottom", t_height * -1 + "px");
 	
 	$("#basic_img").ready(function() {
 		var img = document.getElementById("basic_img");

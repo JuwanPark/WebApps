@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ticker cols="16" rows="1">
 	<text in="upward" pause="2" out="rightward" out-delay="2" next-term="0">Welcome!</text>
-	<text in="slideright" pause="1" color="6" delay="3" h-adjust="6">Hangul `rLED`r Ticker v0.1</text>
+	<text in="slideright" pause="1" color="6" delay="3" h-adjust="6">Hangul `rLED`r `kTicker`k v0.2</text>
 	<text in="downward" pause="2" out="leftward" color="12" h-adjust="15">http://parkjuwan.dothome.co.kr/</text>
 	<text color="10">한글`8을 `0써 `d볼`c까요? ㄱㄴㄷ`a♥</text>
+	<text color="2">오늘은 `ty년 `tm월 `td일 `tq요일입니다.</text>
 </ticker>
