@@ -19,7 +19,7 @@ function startload() {
 			success: function (xml) {
 				// Parse the xml file and get data
 				$(xml).find("ticker").each(function(){
-					var r_color, r_delay, r_h_adj, r_v_adj;
+					var r_color, r_delay, r_h_adj, r_v_adj, r_outd, r_term;
 					// Resize
 					t_width = $(this).attr("cols") * 32;
 					t_height = $(this).attr("rows") * 64;
@@ -31,11 +31,11 @@ function startload() {
 					$("#blinder").css("margin-bottom", t_height * -1 + "px");
 					
 					// Default color
-					if ( $(this).attr("defaultcolor") ) {
-						main_def_color = parseInt( $(this).attr("defaultcolor") );
+					if ( $(this).attr("default-color") ) {
+						main_def_color = parseInt( $(this).attr("default-color") );
 					}
-					next_term = parseInt( $(this).attr("nextterm") );
-					if (isNaN(next_term) )  { next_term = 2; }
+					def_term = parseInt( $(this).attr("default-term") );
+					if (isNaN(def_term) )  { def_term = 2; }
 					
 					// Get textes
 					$(this).find("text").each(function(){
@@ -47,15 +47,22 @@ function startload() {
 						r_delay = parseInt( $(this).attr("delay") );
 						r_h_adj = parseInt( $(this).attr("h-adjust") );
 						r_v_adj = parseInt( $(this).attr("v-adjust") );
+						r_outd = parseInt( $(this).attr("out-delay") );
+						r_term = parseInt( $(this).attr("next-term") );
 						if (isNaN(r_delay) )  { r_delay = 4; }
 						if (isNaN(r_h_adj) )  { r_h_adj = 0; }
 						if (isNaN(r_v_adj) )  { r_v_adj = 0; }
+						if (isNaN(r_outd) )  { r_outd = r_delay; }
+						if (isNaN(r_term) )  { r_term = def_term; }
 
+						if (r_delay < 1)  { r_delay = 1; }
+						if (r_outd < 1)  { r_outd = 1; }
+						
 						list_of_item.push( { "text": $(this).text(),
 						                     "color": r_color,
 						                     "in": String( $(this).attr("in") ).toLowerCase(),
 						                     "out": String( $(this).attr("out") ).toLowerCase(),
-						                     "delay": r_delay,
+						                     "delay": r_delay, "out-delay": r_outd, "next-term": r_term,
 						                     "h-adjust": r_h_adj, "v-adjust": r_v_adj, 
 						                     "pause": parseInt( "0" + $(this).attr("pause") ) });
 					});
@@ -220,7 +227,7 @@ function moving_item (item_no) {
 				$("#blinder").css("opacity", 0);
 			}
 			anima = setInterval(function(){ outing_item(item_no) },
-				10 * list_of_item[item_no]["delay"]);
+				10 * list_of_item[item_no]["out-delay"]);
 		}, list_of_item[item_no]["pause"] * 500);
 	}
 }
@@ -298,10 +305,11 @@ function outing_item (item_no) {
 	}
 	if (finished) {
 		clearInterval(anima);
+		
 		setTimeout(function(){
 			current_item++;
 			if (current_item >= list_of_item.length)  { current_item -= list_of_item.length; }
 			start_item(current_item);
-		}, next_term * 500);
+		}, list_of_item[item_no]["next-term"] * 500);
 	}
 }

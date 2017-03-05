@@ -10,7 +10,7 @@ var jung_to_jong = [0, 2, 0, 2, 1, 2, 1, 2, 3, 3, 3, 3, 3, 3, 1, 2, 1, 3, 3, 1, 
 var list_of_item = [];
 var reversed = false;
 var current_item = 0;
-var next_term;
+var def_term;
 
 /* Pre Function */
 function receive_get_data(param) {
@@ -287,7 +287,7 @@ $(document).ready(function() {
 
 	$("#ticker").ready(function() { prepared += 1; });
 
-	if ( $(window).innerHeight() < $("#sitelink").offset().top ) {
-		$("#sitelink").css("display", "none");
+	if ( $(window).innerHeight() >= $("#before_desc").offset().top ) {
+		$("#sitedesc").css("display", "block");
 	}
 });

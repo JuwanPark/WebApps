@@ -41,3 +41,8 @@ img, canvas {
 	top: 0;
 	z-index: 5;
 }
+
+#before_desc {
+	height: 0;
+	border: none;
+}
