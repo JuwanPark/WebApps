@@ -20,7 +20,7 @@ function startload() {
 			success: function (xml) {
 				// Parse the xml file and get data
 				$(xml).find("ticker").each(function(){
-					var r_cols, r_rows;
+					var r_cols, r_rows, r_effect_in, r_effect_out, r_pause;
 					var r_color, r_delay, r_h_adj, r_v_adj, r_outd, r_term;
 					var r_ani_delay, r_blink_delay;
 					// Resize
@@ -66,22 +66,25 @@ function startload() {
 						} else {
 							r_color = main_def_color;
 						}
+						r_effect_in = String( $(this).attr("in") ).toLowerCase();
+						r_effect_out = String( $(this).attr("out") ).toLowerCase();
+						
 						r_delay = parseInt( $(this).attr("delay") );
 						r_h_adj = parseInt( $(this).attr("h-adjust") );
 						r_v_adj = parseInt( $(this).attr("v-adjust") );
 						r_outd = parseInt( $(this).attr("out-delay") );
 						r_term = parseInt( $(this).attr("next-term") );
 						r_outd = parseInt( $(this).attr("out-delay") );
-						r_blink_delay = parseInt( $(this).attr("blink-delay") );
-						r_ani_delay = parseInt( $(this).attr("animation-delay") );
+						r_blink_delay = parseInt( "0" + $(this).attr("blink-delay") );
+						r_ani_delay = parseInt( "0" + $(this).attr("animation-delay") );
+						r_pause = parseInt( "0" + $(this).attr("pause") )
 						if (isNaN(r_delay) )  { r_delay = 4; }
 						if (isNaN(r_h_adj) )  { r_h_adj = 0; }
 						if (isNaN(r_v_adj) )  { r_v_adj = 0; }
 						if (isNaN(r_outd) )  { r_outd = r_delay; }
 						if (isNaN(r_term) )  { r_term = def_term; }
-						if (isNaN(r_blink_delay) )  { r_blink_delay = def_blink_delay; }
-						if (isNaN(r_ani_delay) )    { r_ani_delay = def_ani_delay; }
 
+						// Force value
 						if (r_delay < 1)  { r_delay = 1; }
 						if (r_outd < 1)  { r_outd = 1; }
 
@@ -91,14 +94,17 @@ function startload() {
 						if (r_ani_delay < 1 )      { r_ani_delay = 1; }
 						else if (r_ani_delay > 8 ) { r_ani_delay = 8; }
 						
+						if (r_effect_in == "immediately" && r_effect_out == "immediately" && r_pause <= 0) {
+							r_pause = 2;
+						}
+						
+						// Push
 						list_of_item.push( { "text": $(this).text(),
 						                     "color": r_color,
-						                     "in": String( $(this).attr("in") ).toLowerCase(),
-						                     "out": String( $(this).attr("out") ).toLowerCase(),
+						                     "in": r_effect_in, "out": r_effect_out,
 						                     "delay": r_delay, "out-delay": r_outd, "next-term": r_term,
 											 "blink-delay": r_blink_delay, "ani-delay": r_ani_delay,
-						                     "h-adjust": r_h_adj, "v-adjust": r_v_adj, 
-						                     "pause": parseInt( "0" + $(this).attr("pause") ) });
+						                     "h-adjust": r_h_adj, "v-adjust": r_v_adj, "pause": r_pause });
 					});
 				});
 				// Start
