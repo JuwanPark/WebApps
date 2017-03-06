@@ -13,6 +13,7 @@ var reversed = false;
 var current_item = 0;
 var def_term, def_blink_delay, def_ani_delay;
 var offset_x = 0, offset_y = 0;
+var crop_h = 0, crop_v = 0;
 
 var dayname = [{"han": "일",  "eng": "Sun", "engs": "Sunday"},
                {"han": "월",  "eng": "Mon", "engs": "Monday"},
@@ -144,16 +145,25 @@ function get_spechar_img (x = 0, y = 0) {
 }
 
 function drawchr (col, row, color, imgdat, chrwidth = 1, target = "ticker") {
+	if ( ( col + chrwidth ) * 32 + offset_x * 4 - crop_h * 16 <= 0 ||
+	     col * 32 + offset_x * 4 - crop_h * 16 >= $("#ticker").width() ||
+         ( row + 1 ) * 64 + offset_y * 4 - crop_v * 32 <= 0 ||
+         row * 64 + offset_y * 4 - crop_v * 32 >= $("#ticker").height() ) {
+		// Ignored if out of area
+		return false;
+	}
 	var c = document.getElementById(target);
 	var ctx = c.getContext("2d");
 	ctx.shadowColor = text_colors[color]["norm"];
 	ctx.shadowOffsetX = 0;
 	ctx.shadowOffsetY = 0;
-	var ix, iy;
+	var ix, iy, out_of_area;
 	for (var i = 0; i < 128 * chrwidth; i++) {
-		ix = (i % (8 * chrwidth) ) * 4 + col * 32 + offset_x * 4;
-		iy = Math.floor(i / (8 * chrwidth) ) * 4 + row * 64 + offset_y * 4;
-		if ( imgdat.data[i*4+3] > 0 ^ reversed ) {
+		ix = (i % (8 * chrwidth) ) * 4 + col * 32 + offset_x * 4 - crop_h * 16;
+		iy = Math.floor(i / (8 * chrwidth) ) * 4 + row * 64 + offset_y * 4 - crop_v * 32;
+		out_of_area = ( ix <= -4 ) || ( iy <= -4 ) ||
+		              ( ix >= $("#ticker").width() ) || ( iy >= $("#ticker").height() );
+		if ( ( imgdat.data[i*4+3] > 0 ^ reversed ) && !out_of_area ) {
 			ctx.fillStyle = text_colors[color]["norm"];
 			ctx.shadowBlur = 5;
 			ctx.fillRect(ix + .5, iy + .5, 3, 3);
@@ -165,6 +175,13 @@ function drawchr (col, row, color, imgdat, chrwidth = 1, target = "ticker") {
 }
 
 function drawani (col, row, color, symno, target = "anisym") {
+	if ( ( col + 2 ) * 32 + offset_x * 4 - crop_h * 16 <= 0 ||
+	     col * 32 + offset_x * 4 - crop_h * 16 >= $("#ticker").width() ||
+         ( row + 1 ) * 64 + offset_y * 4 - crop_v * 32 <= 0 ||
+         row * 64 + offset_y * 4 - crop_v * 32 >= $("#ticker").height() ) {
+		// Ignored if out of area
+		return false;
+	}
 	var cs = document.getElementById("ani_canv");
 	var ctxs = cs.getContext("2d");
 	var c = document.getElementById("ani_temp");
@@ -173,16 +190,23 @@ function drawani (col, row, color, symno, target = "anisym") {
 	ctx.shadowColor = text_colors[color]["norm"];
 	ctx.shadowOffsetX = 0;
 	ctx.shadowOffsetY = 0;
-	var ix, iy, imgdat;
+	var ix, iy, imgdat, out_of_area;
 	var jx = symno % 4, jy = Math.floor(symno / 4);
 	var anitarget;
 
+	var pos_x = col * 32 + offset_x * 4 - crop_h * 16;
+	var pos_y = row * 64 + offset_y * 4 - crop_v * 32;
+	
 	for (var j = 0; j < 4; j++) {
 		imgdat = ctxs.getImageData( (jx * 4 + j) * 16, jy * 16, 16, 16);
 		for (var i = 0; i < 256; i++) {
 			ix = (i % 16) * 4 + (j % 2) * 72 + 4;
 			iy = Math.floor(i / 16) * 4 + Math.floor(j / 2) * 72 + 4;
-			if ( imgdat.data[i*4+3] > 0 ^ reversed ) {
+			out_of_area = ( pos_x + (i % 16) * 4 <= -4 ) ||
+			              ( pos_y + Math.floor(i / 16) * 4 <= -4 ) ||
+						  ( pos_x + (i % 16) * 4 >= $("#ticker").width() ) ||
+			              ( pos_y + Math.floor(i / 16) * 4 >= $("#ticker").height() );
+			if ( ( imgdat.data[i*4+3] > 0 ^ reversed ) && !out_of_area ) {
 				ctx.fillStyle = text_colors[color]["norm"];
 				ctx.shadowBlur = 5;
 				ctx.fillRect(ix + .5, iy + .5, 3, 3);
@@ -192,8 +216,8 @@ function drawani (col, row, color, symno, target = "anisym") {
 			}
 		}
 	}
-	$("#" + target).append('<span class="ani" style="left: ' + (col * 32 + offset_x * 4 - 4) +
-		'px; top: ' + (row * 64 + offset_y * 4 - 4) + 'px; background-image: url(\'' +
+	$("#" + target).append('<span class="ani" style="left: ' + (pos_x - 4) +
+		'px; top: ' + (pos_y - 4) + 'px; background-image: url(\'' +
 		c.toDataURL('image/png') + '\');"></span>');
 }
 
@@ -249,22 +273,26 @@ function disptxt (txt, color) {
 	special_flag = false;
 	ani_flag = false;
 	offset_x = 0;  offset_y = 0;
+	
+	if (maxcols < 1)  { maxcols = 1; }
+	if (crop_h >= maxcols)  { crop_h = maxcols - 1; }
+	if (crop_v >= maxrows)  { crop_v = maxrows - 1; }
 	// Resize
-	$("#blinkchar").attr("width", maxcols * 32);
-	$("#blinkchar").attr("height", maxrows * 64);
-	$("#blinkchar").css("margin-bottom", (maxrows * -64) + "px");
+	$("#blinkchar").attr("width", (maxcols - crop_h) * 32);
+	$("#blinkchar").attr("height", (maxrows - crop_v) * 64);
+	$("#blinkchar").css("margin-bottom", ( (maxrows - crop_v) * -64) + "px");
 
-	$("#ticker").attr("width", maxcols * 32);
-	$("#ticker").attr("height", maxrows * 64);
-	$("#ticker").css("margin-bottom", (maxrows * -64) + "px");
+	$("#ticker").attr("width", (maxcols - crop_h) * 32);
+	$("#ticker").attr("height", (maxrows - crop_v) * 64);
+	$("#ticker").css("margin-bottom", ( (maxrows - crop_v) * -64) + "px");
 
-	$("#anisym").css("width", maxcols * 32);
-	$("#anisym").css("height", maxrows * 64);
-	$("#anisym").css("margin-bottom", (maxrows * -64) + "px");
+	$("#anisym").css("width", (maxcols - crop_h) * 32);
+	$("#anisym").css("height", (maxrows - crop_v) * 64);
+	$("#anisym").css("margin-bottom", ( (maxrows - crop_v) * -64) + "px");
 
-	$("#aniblink").css("width", maxcols * 32);
-	$("#aniblink").css("height", maxrows * 64);
-	$("#aniblink").css("margin-bottom", (maxrows * -64) + "px");
+	$("#aniblink").css("width", (maxcols - crop_h) * 32);
+	$("#aniblink").css("height", (maxrows - crop_v) * 64);
+	$("#aniblink").css("margin-bottom", ( (maxrows - crop_v) * -64) + "px");
 	
 	// Draw
 	for (var i = 0; i < txt.length; i++) {

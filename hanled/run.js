@@ -69,20 +69,22 @@ function startload() {
 						r_effect_in = String( $(this).attr("in") ).toLowerCase();
 						r_effect_out = String( $(this).attr("out") ).toLowerCase();
 						
-						r_delay = parseInt( $(this).attr("delay") );
 						r_h_adj = parseInt( $(this).attr("h-adjust") );
 						r_v_adj = parseInt( $(this).attr("v-adjust") );
+						r_delay = parseInt( $(this).attr("delay") );
 						r_outd = parseInt( $(this).attr("out-delay") );
 						r_term = parseInt( $(this).attr("next-term") );
 						r_outd = parseInt( $(this).attr("out-delay") );
-						r_blink_delay = parseInt( "0" + $(this).attr("blink-delay") );
-						r_ani_delay = parseInt( "0" + $(this).attr("animation-delay") );
+						r_blink_delay = parseInt( $(this).attr("blink-delay") );
+						r_ani_delay = parseInt( $(this).attr("animation-delay") );
 						r_pause = parseInt( "0" + $(this).attr("pause") )
 						if (isNaN(r_delay) )  { r_delay = 4; }
 						if (isNaN(r_h_adj) )  { r_h_adj = 0; }
 						if (isNaN(r_v_adj) )  { r_v_adj = 0; }
 						if (isNaN(r_outd) )  { r_outd = r_delay; }
 						if (isNaN(r_term) )  { r_term = def_term; }
+						if (isNaN(r_blink_delay) )  { r_blink_delay = def_blink_delay; }
+						if (isNaN(r_ani_delay) )    { r_ani_delay =   def_ani_delay; }
 
 						// Force value
 						if (r_delay < 1)  { r_delay = 1; }
@@ -104,7 +106,10 @@ function startload() {
 						                     "in": r_effect_in, "out": r_effect_out,
 						                     "delay": r_delay, "out-delay": r_outd, "next-term": r_term,
 											 "blink-delay": r_blink_delay, "ani-delay": r_ani_delay,
-						                     "h-adjust": r_h_adj, "v-adjust": r_v_adj, "pause": r_pause });
+						                     "h-adjust": r_h_adj, "v-adjust": r_v_adj,
+						                     "h-crop": parseInt( "0" + $(this).attr("h-crop") ),
+						                     "v-crop": parseInt( "0" + $(this).attr("v-crop") ),
+						                     "pause": r_pause });
 					});
 				});
 				// Start
@@ -150,6 +155,9 @@ function start_item (item_no) {
 	txt = txt.replace(/`ts/g, (cur_dt.getSeconds() + 100).toString().substr(1) );
 	txt = txt.replace(/`tS/g, cur_dt.getSeconds() );
 
+	// Set crop
+	crop_h = list_of_item[item_no]["h-crop"]; crop_v = list_of_item[item_no]["v-crop"];
+	
 	// Display
 	disptxt(txt, list_of_item[item_no]["color"] );
 	
