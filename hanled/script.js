@@ -36,6 +36,11 @@ var monname = [{"eng": "Jan", "engs": "January"},
                {"eng": "Nov", "engs": "November"},
                {"eng": "Dec", "engs": "December"}];
 
+window.addEventListener('error', function(e) {
+    console.log(e);
+	$("#loading").html("Error");
+}, true);
+
 /**
  * Trigger a callback when 'this' image is loaded:
  * @param {Function} callback
