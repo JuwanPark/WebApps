@@ -2,13 +2,14 @@
 var rft = setInterval(function(){ ready_for_ticker() }, 10);
 var anima;
 function ready_for_ticker () {
-	if (prepared >= 5) {
+	if (img_standby >= 5) {
 		clearInterval(rft);
 		startload();
 	}
 }
 
 function startload() {
+	$("#loading").hide();
 	// Read XML
 	if ( receive_get_data("data") ) {
 		$.ajax({
@@ -21,6 +22,7 @@ function startload() {
 				$(xml).find("ticker").each(function(){
 					var r_cols, r_rows;
 					var r_color, r_delay, r_h_adj, r_v_adj, r_outd, r_term;
+					var r_ani_delay, r_blink_delay;
 					// Resize
 					r_cols = $(this).attr("cols");
 					r_rows = $(this).attr("rows");
@@ -45,7 +47,17 @@ function startload() {
 						main_def_color = parseInt( $(this).attr("default-color") );
 					}
 					def_term = parseInt( $(this).attr("default-term") );
-					if (isNaN(def_term) )  { def_term = 2; }
+					if (isNaN(def_term) )         { def_term = 2; }
+
+					def_blink_delay = parseInt( $(this).attr("default-blink-delay") );
+					if (isNaN(def_blink_delay) )  { def_blink_delay = 8; }
+					else if ( def_blink_delay < 1 ) { def_blink_delay = 1; }
+					else if ( def_blink_delay > 8 ) { def_blink_delay = 8; }
+					
+					def_ani_delay = parseInt( $(this).attr("default-animation-delay") );
+					if (isNaN(def_ani_delay) )  { def_ani_delay = 4; }
+					else if ( def_ani_delay < 1 ) { def_ani_delay = 1; }
+					else if ( def_ani_delay > 8 ) { def_ani_delay = 8; }
 					
 					// Get textes
 					$(this).find("text").each(function(){
@@ -59,20 +71,32 @@ function startload() {
 						r_v_adj = parseInt( $(this).attr("v-adjust") );
 						r_outd = parseInt( $(this).attr("out-delay") );
 						r_term = parseInt( $(this).attr("next-term") );
+						r_outd = parseInt( $(this).attr("out-delay") );
+						r_blink_delay = parseInt( $(this).attr("blink-delay") );
+						r_ani_delay = parseInt( $(this).attr("animation-delay") );
 						if (isNaN(r_delay) )  { r_delay = 4; }
 						if (isNaN(r_h_adj) )  { r_h_adj = 0; }
 						if (isNaN(r_v_adj) )  { r_v_adj = 0; }
 						if (isNaN(r_outd) )  { r_outd = r_delay; }
 						if (isNaN(r_term) )  { r_term = def_term; }
+						if (isNaN(r_blink_delay) )  { r_blink_delay = def_blink_delay; }
+						if (isNaN(r_ani_delay) )    { r_ani_delay = def_ani_delay; }
 
 						if (r_delay < 1)  { r_delay = 1; }
 						if (r_outd < 1)  { r_outd = 1; }
+
+						if (r_blink_delay < 1 )      { r_blink_delay = 1; }
+						else if (r_blink_delay > 8 ) { r_blink_delay = 8; }
+
+						if (r_ani_delay < 1 )      { r_ani_delay = 1; }
+						else if (r_ani_delay > 8 ) { r_ani_delay = 8; }
 						
 						list_of_item.push( { "text": $(this).text(),
 						                     "color": r_color,
 						                     "in": String( $(this).attr("in") ).toLowerCase(),
 						                     "out": String( $(this).attr("out") ).toLowerCase(),
 						                     "delay": r_delay, "out-delay": r_outd, "next-term": r_term,
+											 "blink-delay": r_blink_delay, "ani-delay": r_ani_delay,
 						                     "h-adjust": r_h_adj, "v-adjust": r_v_adj, 
 						                     "pause": parseInt( "0" + $(this).attr("pause") ) });
 					});
@@ -87,6 +111,7 @@ function startload() {
 function start_item (item_no) {
 	clearticker();
 	$("#anisym").html("");
+	$("#aniblink").html("");
 	var txt = list_of_item[item_no]["text"];
 	var cur_dt = new Date();
 	
@@ -118,9 +143,18 @@ function start_item (item_no) {
 	txt = txt.replace(/`tI/g, cur_dt.getMinutes() );
 	txt = txt.replace(/`ts/g, (cur_dt.getSeconds() + 100).toString().substr(1) );
 	txt = txt.replace(/`tS/g, cur_dt.getSeconds() );
+
+	// Display
+	disptxt(txt, list_of_item[item_no]["color"] );
+	
+	// Set blinking delay
+	$("#container").addClass("blinking");
+	$(".blinking #blinker").css("-webkit-animation-duration", list_of_item[item_no]["blink-delay"] / 4 + "s");
+	$(".blinking #blinker").css("animation-duration",         list_of_item[item_no]["blink-delay"] / 4 + "s");
+	$(".ani").css("-webkit-animation-duration", list_of_item[item_no]["ani-delay"] / 4 + "s");
+	$(".ani").css("animation-duration",         list_of_item[item_no]["ani-delay"] / 4 + "s");
 	
 	// Start
-	disptxt(txt, list_of_item[item_no]["color"] );
 	var h_adj = list_of_item[item_no]["h-adjust"] * 32;
 	var v_adj = list_of_item[item_no]["v-adjust"] * 64;
 	$("#blinder").css("opacity", 0);
@@ -354,7 +388,6 @@ function outing_item (item_no) {
 			current_item++;
 			if (current_item >= list_of_item.length)  { current_item -= list_of_item.length; }
 			start_item(current_item);
-			$("#container").addClass("blinking");
 		}, list_of_item[item_no]["next-term"] * 500);
 	}
 }

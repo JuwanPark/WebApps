@@ -31,4 +31,10 @@ var han_specs = "　　、。·‥…¨〃­―∥＼∼‘’" +
                 "☜☞¶†‡↕↗↙↖↘♭♩♪♬㉿㈜" +
                 "№㏇™㏂㏘℡　　　　　　　　　　";
 
+var font_imgs = [ { "name": "basic_img",  "src": "img/basic_norm.png" },
+                  { "name": "han_img",    "src": "img/han_iyg.png" },
+                  { "name": "natja_img",  "src": "img/natja.png" },
+                  { "name": "spe_img",    "src": "img/specs.png" },
+                  { "name": "ani_img",    "src": "img/ani_symbol.png" } ];
+
 var main_def_color = 4;

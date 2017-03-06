@@ -6,18 +6,19 @@
 		<link href="style.css" rel="stylesheet" type="text/css" />
 		<link rel="icon" type="image/png" href="../favicon.png" />
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-		<script type="text/javascript" src="definition.js"></script>
+		<script type="text/javascript" src="definition.js"></script> <!-- Edit this -->
 		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="ready.js"></script>
 		<title>Hangul LED Ticker</title>
 	</head>
 	<body>
 		<!-- Font template (Hidden) -->
 		<div style="display: none;">
-			<img width="256" height="48" id="basic_img" alt="basic" src="img/basic_norm.png" />
-			<img width="432" height="256" id="han_img" alt="hangul" src="img/han_iyg.png" />
-			<img width="192" height="128" id="natja_img" alt="natja" src="img/natja.png" />
-			<img width="256" height="512" id="spe_img" alt="specs"  src="img/specs.png" />
-			<img width="256" height="64" id="ani_img" alt="anisymbol"  src="img/ani_symbol.png" />
+			<img width="256" height="48" id="basic_img" alt="basic" />
+			<img width="432" height="256" id="han_img" alt="hangul" />
+			<img width="192" height="128" id="natja_img" alt="natja" />
+			<img width="256" height="512" id="spe_img" alt="specs" />
+			<img width="256" height="64" id="ani_img" alt="anisymbol" />
 			<canvas width="256" height="48" id="basic_canv"></canvas>
 			<canvas width="256" height="256" id="han_canv"></canvas>
 			<canvas width="256" height="256" id="han2_canv"></canvas>
@@ -26,6 +27,7 @@
 			<canvas width="144" height="144" id="ani_temp"></canvas>
 		</div>
 		<div id="container" class="blinking">
+			<div id="loading">Loading...</div>
 			<div id="blinder"></div>
 			<div id="blinker"></div>
 			<div id="mover">

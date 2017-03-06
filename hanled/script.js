@@ -1,5 +1,6 @@
-var prepared = 0;
-var han_prepared = 0;
+var all_standby = false;
+var img_standby = 0;
+var han_standby = 0;
 
 var t_width = 512, t_height = 64;
 
@@ -10,7 +11,7 @@ var jung_to_jong = [0, 2, 0, 2, 1, 2, 1, 2, 3, 3, 3, 3, 3, 3, 1, 2, 1, 3, 3, 1, 
 var list_of_item = [];
 var reversed = false;
 var current_item = 0;
-var def_term;
+var def_term, def_blink_delay, def_ani_delay;
 var offset_x = 0, offset_y = 0;
 
 var dayname = [{"han": "일",  "eng": "Sun", "engs": "Sunday"},
@@ -34,6 +35,27 @@ var monname = [{"eng": "Jan", "engs": "January"},
                {"eng": "Oct", "engs": "October"},
                {"eng": "Nov", "engs": "November"},
                {"eng": "Dec", "engs": "December"}];
+
+/**
+ * Trigger a callback when 'this' image is loaded:
+ * @param {Function} callback
+ */
+(function($){
+    $.fn.imgLoad = function(callback) {
+        return this.each(function() {
+            if (callback) {
+                if (this.complete || /*for IE 10-*/ $(this).height() > 0) {
+                    callback.apply(this);
+                }
+                else {
+                    $(this).on('load', function(){
+                        callback.apply(this);
+                    });
+                }
+            }
+        });
+    };
+})(jQuery);
 
 /* Pre Function */
 function receive_get_data(param) {
@@ -137,7 +159,7 @@ function drawchr (col, row, color, imgdat, chrwidth = 1, target = "ticker") {
 	}
 }
 
-function drawani (col, row, color, symno) {
+function drawani (col, row, color, symno, target = "anisym") {
 	var cs = document.getElementById("ani_canv");
 	var ctxs = cs.getContext("2d");
 	var c = document.getElementById("ani_temp");
@@ -148,6 +170,7 @@ function drawani (col, row, color, symno) {
 	ctx.shadowOffsetY = 0;
 	var ix, iy, imgdat;
 	var jx = symno % 4, jy = Math.floor(symno / 4);
+	var anitarget;
 
 	for (var j = 0; j < 4; j++) {
 		imgdat = ctxs.getImageData( (jx * 4 + j) * 16, jy * 16, 16, 16);
@@ -164,7 +187,7 @@ function drawani (col, row, color, symno) {
 			}
 		}
 	}
-	$("#anisym").append('<span class="ani" style="left: ' + (col * 32 + offset_x * 4 - 4) +
+	$("#" + target).append('<span class="ani" style="left: ' + (col * 32 + offset_x * 4 - 4) +
 		'px; top: ' + (row * 64 + offset_y * 4 - 4) + 'px; background-image: url(\'' +
 		c.toDataURL('image/png') + '\');"></span>');
 }
@@ -188,8 +211,12 @@ function disptxt (txt, color) {
 				maxrows += 1;
 			} else if (txt.substr(i, 1) == "`") { // `
 				curcols += 1;
-			} else if (txt.substr(i, 1) == "g") { // back
+			} else if (txt.substr(i, 1) == "g") { // back 1
 				curcols -= 1;
+			} else if (txt.substr(i, 1) == "G") { // back 4
+				curcols -= 4;
+			} else if (txt.substr(i, 1) == "!") { // back first
+				curcols = 0;
 			}
 			special_flag = false;
 		} else if (ani_flag) {
@@ -230,6 +257,10 @@ function disptxt (txt, color) {
 	$("#anisym").css("height", maxrows * 64);
 	$("#anisym").css("margin-bottom", (maxrows * -64) + "px");
 
+	$("#aniblink").css("width", maxcols * 32);
+	$("#aniblink").css("height", maxrows * 64);
+	$("#aniblink").css("margin-bottom", (maxrows * -64) + "px");
+	
 	// Draw
 	for (var i = 0; i < txt.length; i++) {
 		if (special_flag) {
@@ -270,12 +301,20 @@ function disptxt (txt, color) {
 						offset_x = 0;  offset_y = 0;  break;
 					case "g": // Back -1 char
 						curcols -= 1;  break;
+					case "G": // Back -4 char
+						curcols -= 4;  break;
+					case "!": // Back to first
+						curcols = 0;  break;
 				}
 			}
 			special_flag = false;
 		} else if (ani_flag) {
 			if ( !isNaN( parseInt(txt.substr(i, 1), 16) ) ) { // ani
-				drawani(curcols, currows, curcolor, parseInt(txt.substr(i, 1), 16) );
+				if (target == "blinkchar") {
+					drawani(curcols, currows, curcolor, parseInt(txt.substr(i, 1), 16), "aniblink");
+				} else {
+					drawani(curcols, currows, curcolor, parseInt(txt.substr(i, 1), 16), "anisym");
+				}
 				curcols += 2;
 			} else if (txt.charCodeAt(i) >= 32 && txt.charCodeAt(i) < 127) {
 				// Basic
@@ -329,107 +368,3 @@ function clearticker() {
 	ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
 }
-
-
-/* Ready */
-$(document).ready(function() {
-	var rfh = setInterval(function(){ ready_for_hangul() }, 10);
-	function ready_for_hangul () {
-		if (han_prepared >= 2) {
-			clearInterval(rfh);
-			hangul_load();
-		}
-	}
-
-	// Default size
-	$("#container").css("width", t_width + "px");
-	$("#container").css("height", t_height + "px");
-
-	$("#blinder").css("width", t_width + "px");
-	$("#blinder").css("height", t_height + "px");
-	$("#blinder").css("margin-bottom", t_height * -1 + "px");
-
-	$("#blinker").css("width", t_width + "px");
-	$("#blinker").css("height", t_height + "px");
-	$("#blinker").css("margin-bottom", t_height * -1 + "px");
-	
-	$("#basic_img").ready(function() {
-		var img = document.getElementById("basic_img");
-		var c = document.getElementById("basic_canv");
-		var ctx = c.getContext("2d");
-		ctx.drawImage(img, 0, 0);
-		var imgData = ctx.getImageData(0, 0, 256, 48);
-		for (var i=0; i<imgData.data.length; i+=4) {
-			if (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2] == 0) {
-				imgData.data[i+3] = 0;
-			}
-		}
-		ctx.putImageData(imgData, 0, 0);
-		prepared += 1;
-	});
-	$("#spe_img").ready(function() {
-		var img = document.getElementById("spe_img");
-		var c = document.getElementById("spe_canv");
-		var ctx = c.getContext("2d");
-		ctx.drawImage(img, 0, 0);
-		var imgData = ctx.getImageData(0, 0, c.width, c.height);
-		for (var i=0; i<imgData.data.length; i+=4) {
-			if (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2] == 0) {
-				imgData.data[i+3] = 0;
-			}
-		}
-		ctx.putImageData(imgData, 0, 0);
-		prepared += 1;
-	});
-	$("#ani_img").ready(function() {
-		var img = document.getElementById("ani_img");
-		var c = document.getElementById("ani_canv");
-		var ctx = c.getContext("2d");
-		ctx.drawImage(img, 0, 0);
-		var imgData = ctx.getImageData(0, 0, 256, 64);
-		for (var i=0; i<imgData.data.length; i+=4) {
-			if (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2] == 0) {
-				imgData.data[i+3] = 0;
-			}
-		}
-		ctx.putImageData(imgData, 0, 0);
-		prepared += 1;
-	});
-
-	$("#han_img").ready(function() { han_prepared += 1; });
-	$("#natja_img").ready(function() { han_prepared += 1; });
-	function hangul_load() {
-		var img = document.getElementById("han_img");
-		var natja = document.getElementById("natja_img");
-		var c = document.getElementById("han_canv");
-		var ctx = c.getContext("2d");
-		var c2 = document.getElementById("han2_canv");
-		var ctx2 = c2.getContext("2d");
-		ctx.drawImage(img, 0, 0);
-		ctx.drawImage(img, -256, 128);
-		ctx.drawImage(natja, 64, 128);
-		ctx2.drawImage(img, -256, 0);
-		ctx2.drawImage(img, 0, -128);
-		var imgData = ctx.getImageData(0, 0, 256, 256);
-		for (var i=0; i<imgData.data.length; i+=4) {
-			if (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2] == 0) {
-				imgData.data[i+3] = 0;
-			}
-		}
-		ctx.putImageData(imgData, 0, 0);
-		imgData = ctx2.getImageData(0, 0, 256, 256);
-		for (var i=0; i<imgData.data.length; i+=4) {
-			if (imgData.data[i] + imgData.data[i+1] + imgData.data[i+2] == 0) {
-				imgData.data[i+3] = 0;
-			}
-		}
-		ctx2.putImageData(imgData, 0, 0);
-		prepared += 1;
-	}
-
-	$("#ticker").ready(function() { prepared += 1; });
-
-	if ( $(window).innerHeight() >= $("#before_desc").offset().top ) {
-		$("#sitedesc").css("display", "block");
-	}
-});

@@ -14,6 +14,13 @@ a:link, a:visited, a:active {
 }
 a:hover { color: #d4d4d4; }
 
+#loading {
+	display: inline;
+	font-size: 20px;
+	line-height: 24px;
+	background-color: #000000;
+}
+
 #container {
 	background-color: #000000;
 	background-image: url('img/ledbg.png');
@@ -42,7 +49,7 @@ img, canvas {
 	top: 0;
 }
 
-#container canvas, #anisym {
+#container canvas, #anisym, #aniblink {
 	position: relative;
 	display: block;
 	left: 0;
@@ -53,6 +60,10 @@ img, canvas {
 #ticker     {  z-index: 8; }
 #anisym     {
 	z-index: 8;
+	overflow: hidden;
+}
+#aniblink   {
+	z-index: 4;
 	overflow: hidden;
 }
 
