@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ticker cols="16" rows="2" default-color="0" default-term="0"
+	default-blink-delay="1" default-animation-delay="2">
+	<text in="fade" delay="2" pause="8" out="leftward">一丁 `)$4`($5 Red`n丂七`)Dance`( Crew</text>
+	<text in="slideright" delay="1" pause="8" out="leftward" h-crop="2" v-crop="1" blink-delay="2">`z
+		`z丄`d三`0三`d三`0三`d三`0三`d三`0丅`n`z
+		`z`d丈`a`k丑`k`g`g`c♡`c완소`0$a`g`g`c$b`c강용`a`k丑`k`g`g`c♡`d丈`n`z
+		`z`0丆`d三`0三`d三`0三`d三`0三`d三`0万</text>
+	<text in="slidedown" delay="1" pause="8" out="leftward">`z
+		`z`6$6 `c이`8$a`g`g`0$b`c강`8$a`g`g`0$b`c용 `6$6`n`z
+		`z`0*`a넘나~귀여운것!`0*</text>
+	<text in="slidedown" delay="1" pause="8" out="leftward">`z
+		`z`b 예술적`6$9`b각선미`n`z
+		`z`a▶ `c심`0$0`c쿵`0$0`c해 `a◀</text>
+	<text in="slideright" delay="1" pause="8" out="leftward">`z
+		`z`6대박`f나라`0레드크루`n`z
+		`z`c이강용`8$b`g`g`0$a`aForever!</text>
+</ticker>

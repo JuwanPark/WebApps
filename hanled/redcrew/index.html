@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Red Crew LED</title>
+	<link rel="stylesheet" href="themes/darkboard.min.css" />
+	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+	<style>
+		#ledcontainer {
+			box-sizing: border-box;
+			background-color: #000000;
+		}
+		#ledframe {
+			border: none;  display: block;  position: relative;
+			/* transform: scale(1.5, 1.5); */
+		}
+	</style>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="loader.js"></script>
+</head>
+<body>
+	<div data-role="page" data-theme="a" id="main">
+		<div data-role="header" data-position="fixed">
+			<h1>Red Crew LED</h1>
+			<a href="#help" data-role="button" class="ui-btn-right">Help</a>
+		</div>
+		<div data-role="content" data-theme="a" id="ledcontainer">
+			<iframe id="ledframe" src="core.html?data=redcrew.xml" width="512" height="128"
+				style=""></iframe>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<h4>Created by <a href="http://parkjuwan.dothome.co.kr/" target="_blank">Juwan Park</a></h4>
+		</div>
+	</div>
+	<div data-role="page" data-theme="a" id="help">
+		<div data-role="header" data-position="fixed">
+			<h2>Red Crew LED</h1>
+			<a href="#main" data-role="button">Back</a>
+		</div>
+		<div data-role="content" data-theme="a">
+			<p>이 웹앱은 홍대 거리 댄스팀 레드크루의 리더 이강용 군을 응원하기 위해 만든 LED 전광판 모양의 웹앱입니다.</p>
+			<p>스마트폰으로 이 웹앱을 사용하시려면 화면 회전을 활성화시킨 후 가로로 회전시켜 들고 계시면 됩니다.</p>
+			<p>레드크루 공연 현장에서 유용하게 사용하세요.</p>
+			<p>현재 실험 단계라 계속 업데이트 가능합니다.</p>
+			<p style="text-align: right;">2017년 3월 6일<br />이강용 군을 좋아하는 어느 삼촌팬이 만듦</p>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<h4>Created by <a href="http://parkjuwan.dothome.co.kr/" target="_blank">Juwan Park</a></h4>
+		</div>
+	</div>
+</body>
+</html>
