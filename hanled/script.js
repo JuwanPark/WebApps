@@ -145,25 +145,16 @@ function get_spechar_img (x = 0, y = 0) {
 }
 
 function drawchr (col, row, color, imgdat, chrwidth = 1, target = "ticker") {
-	if ( ( col + chrwidth ) * 32 + offset_x * 4 - crop_h * 16 <= 0 ||
-	     col * 32 + offset_x * 4 - crop_h * 16 >= $("#ticker").width() ||
-         ( row + 1 ) * 64 + offset_y * 4 - crop_v * 32 <= 0 ||
-         row * 64 + offset_y * 4 - crop_v * 32 >= $("#ticker").height() ) {
-		// Ignored if out of area
-		return false;
-	}
 	var c = document.getElementById(target);
 	var ctx = c.getContext("2d");
 	ctx.shadowColor = text_colors[color]["norm"];
 	ctx.shadowOffsetX = 0;
 	ctx.shadowOffsetY = 0;
-	var ix, iy, out_of_area;
+	var ix, iy;
 	for (var i = 0; i < 128 * chrwidth; i++) {
 		ix = (i % (8 * chrwidth) ) * 4 + col * 32 + offset_x * 4 - crop_h * 16;
 		iy = Math.floor(i / (8 * chrwidth) ) * 4 + row * 64 + offset_y * 4 - crop_v * 32;
-		out_of_area = ( ix <= -4 ) || ( iy <= -4 ) ||
-		              ( ix >= $("#ticker").width() ) || ( iy >= $("#ticker").height() );
-		if ( ( imgdat.data[i*4+3] > 0 ^ reversed ) && !out_of_area ) {
+		if ( imgdat.data[i*4+3] > 0 ^ reversed ) {
 			ctx.fillStyle = text_colors[color]["norm"];
 			ctx.shadowBlur = 5;
 			ctx.fillRect(ix + .5, iy + .5, 3, 3);
@@ -175,13 +166,6 @@ function drawchr (col, row, color, imgdat, chrwidth = 1, target = "ticker") {
 }
 
 function drawani (col, row, color, symno, target = "anisym") {
-	if ( ( col + 2 ) * 32 + offset_x * 4 - crop_h * 16 <= 0 ||
-	     col * 32 + offset_x * 4 - crop_h * 16 >= $("#ticker").width() ||
-         ( row + 1 ) * 64 + offset_y * 4 - crop_v * 32 <= 0 ||
-         row * 64 + offset_y * 4 - crop_v * 32 >= $("#ticker").height() ) {
-		// Ignored if out of area
-		return false;
-	}
 	var cs = document.getElementById("ani_canv");
 	var ctxs = cs.getContext("2d");
 	var c = document.getElementById("ani_temp");
@@ -190,23 +174,19 @@ function drawani (col, row, color, symno, target = "anisym") {
 	ctx.shadowColor = text_colors[color]["norm"];
 	ctx.shadowOffsetX = 0;
 	ctx.shadowOffsetY = 0;
-	var ix, iy, imgdat, out_of_area;
+	var ix, iy, imgdat;
 	var jx = symno % 4, jy = Math.floor(symno / 4);
 	var anitarget;
-
+	
 	var pos_x = col * 32 + offset_x * 4 - crop_h * 16;
 	var pos_y = row * 64 + offset_y * 4 - crop_v * 32;
-	
+
 	for (var j = 0; j < 4; j++) {
 		imgdat = ctxs.getImageData( (jx * 4 + j) * 16, jy * 16, 16, 16);
 		for (var i = 0; i < 256; i++) {
 			ix = (i % 16) * 4 + (j % 2) * 72 + 4;
 			iy = Math.floor(i / 16) * 4 + Math.floor(j / 2) * 72 + 4;
-			out_of_area = ( pos_x + (i % 16) * 4 <= -4 ) ||
-			              ( pos_y + Math.floor(i / 16) * 4 <= -4 ) ||
-						  ( pos_x + (i % 16) * 4 >= $("#ticker").width() ) ||
-			              ( pos_y + Math.floor(i / 16) * 4 >= $("#ticker").height() );
-			if ( ( imgdat.data[i*4+3] > 0 ^ reversed ) && !out_of_area ) {
+			if ( imgdat.data[i*4+3] > 0 ^ reversed ) {
 				ctx.fillStyle = text_colors[color]["norm"];
 				ctx.shadowBlur = 5;
 				ctx.fillRect(ix + .5, iy + .5, 3, 3);
