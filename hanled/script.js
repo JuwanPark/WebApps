@@ -111,7 +111,7 @@ function get_hangul_img (cho = 0, jung = 0, jong = 0) {
 	img_cho = ctx.getImageData(cho * 16, cho_y * 16, 16, 16);
 	// Jungseong
 	if (cho != 0 && cho != 10) { jung_y = 1; }   // Except choseong ㄱ or ㅋ
-	if (jong > 0)              { jung_y += 2; }  // Wiht jongseong
+	if (jong >= 0)             { jung_y += 2; }  // With jongseong
 	if (jung >= 16) {
 		jung -= 16;
 		jung_y += 8;
@@ -227,6 +227,7 @@ function disptxt (txt, color) {
 	var curcols = 0, currows = 0;
 	var special_flag = false;
 	var ani_flag = false;
+	var mute_flag = false;
 	var img_chrdat;
 	var curcolor = color;
 	var target = "ticker";
@@ -246,6 +247,8 @@ function disptxt (txt, color) {
 				curcols -= 4;
 			} else if (txt.substr(i, 1) == "!") { // back first
 				curcols = 0;
+			} else if (txt.substr(i, 1) == "z") { // mute
+				mute_flag = !mute_flag;
 			}
 			special_flag = false;
 		} else if (ani_flag) {
@@ -261,9 +264,9 @@ function disptxt (txt, color) {
 			} else if (txt.substr(i, 1) == "$" ) {
 				ani_flag = true;
 			} else if (txt.charCodeAt(i) < 880) {
-				curcols += 1;
+				if (!mute_flag) { curcols += 1; }
 			} else {
-				curcols += 2;
+				if (!mute_flag) { curcols += 2; }
 			}
 		}
 		if (curcols > maxcols)  { maxcols = curcols; }
@@ -272,6 +275,7 @@ function disptxt (txt, color) {
 	curcols = 0;
 	special_flag = false;
 	ani_flag = false;
+	mute_flag = false;
 	offset_x = 0;  offset_y = 0;
 	
 	if (maxcols < 1)  { maxcols = 1; }
@@ -338,6 +342,8 @@ function disptxt (txt, color) {
 						curcols -= 4;  break;
 					case "!": // Back to first
 						curcols = 0;  break;
+					case "z": // Mute
+						mute_flag = !mute_flag;  break;
 				}
 			}
 			special_flag = false;
@@ -361,32 +367,34 @@ function disptxt (txt, color) {
 				special_flag = true;
 			} else if (txt.substr(i, 1) == "$" ) {
 				ani_flag = true;
-			} else if (txt.charCodeAt(i) >= 32 && txt.charCodeAt(i) < 127) {
-				// Basic
-				img_chrdat = get_baschar_img( txt.charCodeAt(i) );
-				drawchr(curcols, currows, curcolor, img_chrdat, 1, target);
-				curcols += 1;
-			} else if (txt.charCodeAt(i) >= 44032 && txt.charCodeAt(i) <= 55203) {
-				// Hangul
-				cho_c = Math.floor( (txt.charCodeAt(i) - 44032) / 588);
-				jung_c = Math.floor( ( (txt.charCodeAt(i) - 44032) % 588) / 28);
-				jong_c = (txt.charCodeAt(i) - 44032) % 28;
-				img_chrdat = get_hangul_img(cho_c, jung_c, jong_c);
-				drawchr(curcols, currows, curcolor, img_chrdat, 2, target);
-				curcols += 2;
-			} else if (txt.charCodeAt(i) >= 12593 && txt.charCodeAt(i) <= 12686) {
-				// Natja
-				img_chrdat = get_natja_img(txt.charCodeAt(i) - 12593);
-				drawchr(curcols, currows, curcolor, img_chrdat, 2, target);
-				curcols += 2;
-			} else {
-				if ( han_specs.indexOf(txt.substr(i, 1) ) >= 0 ) {
-					spex = han_specs.indexOf(txt.substr(i, 1) ) % 16;
-					spey = Math.floor(han_specs.indexOf(txt.substr(i, 1) ) / 16);
-					img_chrdat = get_spechar_img(spex, spey);
+			} else if (!mute_flag) {
+				if (txt.charCodeAt(i) >= 32 && txt.charCodeAt(i) < 127) {
+					// Basic
+					img_chrdat = get_baschar_img( txt.charCodeAt(i) );
+					drawchr(curcols, currows, curcolor, img_chrdat, 1, target);
+					curcols += 1;
+				} else if (txt.charCodeAt(i) >= 44032 && txt.charCodeAt(i) <= 55203) {
+					// Hangul
+					cho_c = Math.floor( (txt.charCodeAt(i) - 44032) / 588);
+					jung_c = Math.floor( ( (txt.charCodeAt(i) - 44032) % 588) / 28);
+					jong_c = (txt.charCodeAt(i) - 44032) % 28;
+					img_chrdat = get_hangul_img(cho_c, jung_c, jong_c);
 					drawchr(curcols, currows, curcolor, img_chrdat, 2, target);
+					curcols += 2;
+				} else if (txt.charCodeAt(i) >= 12593 && txt.charCodeAt(i) <= 12686) {
+					// Natja
+					img_chrdat = get_natja_img(txt.charCodeAt(i) - 12593);
+					drawchr(curcols, currows, curcolor, img_chrdat, 2, target);
+					curcols += 2;
+				} else {
+					if ( han_specs.indexOf(txt.substr(i, 1) ) >= 0 ) {
+						spex = han_specs.indexOf(txt.substr(i, 1) ) % 16;
+						spey = Math.floor(han_specs.indexOf(txt.substr(i, 1) ) / 16);
+						img_chrdat = get_spechar_img(spex, spey);
+						drawchr(curcols, currows, curcolor, img_chrdat, 2, target);
+					}
+					curcols += 2;
 				}
-				curcols += 2;
 			}
 		}
 	}

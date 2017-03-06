@@ -41,7 +41,11 @@ function startload() {
 					$("#blinker").css("width", t_width + "px");
 					$("#blinker").css("height", t_height + "px");
 					$("#blinker").css("margin-bottom", t_height * -1 + "px");
-					
+
+					if ( $(window).innerHeight() >= $("#before_desc").offset().top ) {
+						$("#sitedesc").css("display", "block");
+					}
+
 					// Default color
 					if ( $(this).attr("default-color") ) {
 						main_def_color = parseInt( $(this).attr("default-color") );

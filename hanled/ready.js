@@ -12,10 +12,6 @@ $(document).ready(function() {
 	$("#blinker").css("height", t_height + "px");
 	$("#blinker").css("margin-bottom", t_height * -1 + "px");
 
-	if ( $(window).innerHeight() >= $("#before_desc").offset().top ) {
-		$("#sitedesc").css("display", "block");
-	}
-
 	/* All load */
 	var promises = [];
 	for (var i = 0; i < font_imgs.length; i++) {
