@@ -1,7 +1,6 @@
 function wresize () {
 	//console.log("Hello, world!");
-	$("#ledcontainer").css("height",
-		($(window).innerHeight() - $(".ui-header").outerHeight() - $(".ui-footer").outerHeight() ) );
+	$("#ledcontainer").css("height", $(window).innerHeight() );
 	$("#ledframe").css("left", ( $("#ledcontainer").outerWidth() -
 		parseInt($("#ledcontainer").css("padding") ) * 2 - 512) / 2) ;
 	$("#ledframe").css("top", ( $("#ledcontainer").outerHeight() -
@@ -10,19 +9,27 @@ function wresize () {
 	var zoomratio = Math.min( $("#ledcontainer").outerWidth() / 512,
 		$("#ledcontainer").outerHeight() / 128 );
 
-	console.log( "scale(" + zoomratio + " " + zoomratio + ")" );
 	$("#ledframe").css({
 		msTransform:      'scale(' + zoomratio + ', ' + zoomratio + ')',
 		webkitTransform:  'scale(' + zoomratio + ', ' + zoomratio + ')',
 		transform:        'scale(' + zoomratio + ', ' + zoomratio + ')'
 	});
+
+}
+
+function forcescroll () {
+	window.scrollTo(0, $("#ledcontainer").position().top);
 }
 
 /* Ready */
 $(document).ready(function() {
 	wresize();
+	$("#ledcontainer").click(function() {
+		forcescroll();
+	});
 });
 
 $(window).resize(function() {
 	wresize();
+	forcescroll();
 });
