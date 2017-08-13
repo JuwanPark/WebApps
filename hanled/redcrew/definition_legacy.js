@@ -39,7 +39,7 @@ var han_specs = "　　、。·‥…¨〃­―∥＼∼‘’" +
                 "丐丑丒专且丕世丗丘丙业丛东丝丞丟" ;
 
 var font_imgs = [ { "name": "basic_img",  "src": "img/hm_y.png" },
-                  { "name": "han_img",    "src": "img/dkbgoth.png" },
+                  { "name": "han_img",    "src": "img/h_soft.png" },
                   { "name": "natja_img",  "src": "img/natja.png" },
                   { "name": "spe_img",    "src": "img/specs_r.png" },
                   { "name": "ani_img",    "src": "img/ani_s.png" } ];

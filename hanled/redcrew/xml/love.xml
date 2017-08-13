@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ticker cols="16" rows="2" default-color="0" default-term="0"
+	default-blink-delay="1" default-animation-delay="2">
+	<text in="immediately" delay="1" out-delay="1" pause="8" out="immediately">`z
+		`z`c:`0이`2강`4용`5$0`6사`8랑`a해`c:`n`z
+		`z`0`k&gt;&gt;&gt;`k `cRed Crew `0`k&lt;&lt;&lt;`k</text>
+	<text in="immediately" delay="1" out-delay="1" pause="8" out="immediately">`z
+		`z레드크루`c$b`g`g`0$a`c사랑해`n`z
+		`z`c&gt;&gt;&gt;`k `0Red Crew `c`k&lt;&lt;&lt;</text>
+</ticker>

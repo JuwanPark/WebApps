@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+		<link href="../style.css" rel="stylesheet" type="text/css" />
+		<link rel="icon" type="image/png" href="../../favicon.png" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script type="text/javascript" src="definition_legacy.js"></script> <!-- Edit this -->
+		<script type="text/javascript" src="../script.js"></script>
+		<script type="text/javascript" src="../ready.js"></script>
+		<title>Hangul LED Ticker</title>
+	</head>
+	<body>
+		<!-- Font template (Hidden) -->
+		<div style="display: none;">
+			<img width="256" height="48" id="basic_img" alt="basic" />
+			<img width="432" height="256" id="han_img" alt="hangul" />
+			<img width="192" height="128" id="natja_img" alt="natja" />
+			<img width="256" height="512" id="spe_img" alt="specs" />
+			<img width="256" height="64" id="ani_img" alt="anisymbol" />
+			<canvas width="256" height="48" id="basic_canv"></canvas>
+			<canvas width="256" height="256" id="han_canv"></canvas>
+			<canvas width="256" height="256" id="han2_canv"></canvas>
+			<canvas width="256" height="512" id="spe_canv"></canvas>
+			<canvas width="256" height="64" id="ani_canv"></canvas>
+			<canvas width="144" height="144" id="ani_temp"></canvas>
+		</div>
+		<div id="container">
+			<div id="loading">Loading...</div>
+			<div id="blinder"></div>
+			<div id="blinker"></div>
+			<div id="mover">
+				<canvas width="0" height="0" id="blinkchar"></canvas>
+				<canvas width="0" height="0" id="ticker"></canvas>
+				<div id="anisym"></div>
+				<div id="aniblink"></div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../run.js"></script>
+		<hr id="before_desc" />
+		<div id="sitedesc" style="display: none;">
+			<p style="text-align: center; font-weight: bold;">Created by <a href="http://parkjuwan.dothome.co.kr/">Juwan Park</a></p>
+		</div>
+	</body>
+</html>

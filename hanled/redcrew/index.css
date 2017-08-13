@@ -1,0 +1,107 @@
+@charset "utf-8";
+@import url(https://fonts.googleapis.com/css?family=Ubuntu);
+
+body {
+	margin: 0 0 0 0;
+	overflow: hidden;
+	background-color: #000000;
+	color: #ffffff;
+	font-family: 'Ubuntu', 'Nanum Gothic', sans-serif;
+}
+
+#forced100 {
+	overflow-x: hidden;
+	max-width: 100%;
+}
+
+a:link, a:visited, a:active {
+	color: #00ffff;
+	text-decoration: none;
+}
+
+a:hover, a:focus {
+	color: #7fffff;
+	text-decoration: underline;
+}
+
+.cbtn {
+	box-sizing: border-box;
+	background: #000000;
+	border: 1px solid #2a2a2a;
+	color: #ffffff;
+	line-height: 20px;
+	font-size: 16px;
+	font-family: 'Ubuntu', 'Nanum Gothic', sans-serif;
+	cursor: pointer;
+}
+
+select {
+	box-sizing: border-box;
+	background: #000000;
+	border: 1px solid #2a2a2a;
+	color: #ffffff;
+	line-height: 20px;
+	font-size: 16px;
+	font-family: 'Ubuntu', 'Nanum Gothic', sans-serif;
+}
+
+#maincontainer {
+	width: 110%;
+	overflow-y: scroll;
+}
+
+#header {
+	height: 40px;
+	padding: 9px 10px 9px 10px;
+	box-sizing: border-box;
+	border-bottom: 1px solid #555555;
+	text-align: center;
+    background: #000000;
+    background: -webkit-linear-gradient(#000000, #151515);
+    background:    -moz-linear-gradient(#000000, #151515);
+    background:      -o-linear-gradient(#000000, #151515);
+    background:         linear-gradient(#000000, #151515);
+}
+#header h2 {
+	margin: 0;
+	font-size: 18px;
+	line-height: 21px;
+	display: inline;
+}
+
+#ledcontainer {
+	box-sizing: border-box;
+	background-color: #000000;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#ledframe {
+	border: none;  display: block;  position: relative;
+	/* transform: scale(1.5, 1.5); */
+}
+
+#footbox {
+	padding: 9px 10px 9px 10px;
+	box-sizing: border-box;
+	border-top: 1px solid #555555;
+	border-bottom: 1px solid #555555;
+    background: #000000;
+    background: -webkit-linear-gradient(#000000, #151515);
+    background:    -moz-linear-gradient(#000000, #151515);
+    background:      -o-linear-gradient(#000000, #151515);
+    background:         linear-gradient(#000000, #151515);
+}
+#footbox h2 {
+	margin: 0;
+	font-size: 18px;
+	line-height: 21px;
+}
+
+#undercontents {
+	padding: 8px 8px 8px 8px;
+}

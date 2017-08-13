@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ticker cols="16" rows="2" default-color="0" default-term="0"
+	default-blink-delay="1" default-animation-delay="2">
+	<text in="immediately" delay="1" out-delay="1" pause="8" out="immediately">一丁 `)`a$4`($5 `0`kRed`k`n`0丂七`)`bDance`( `cCrew</text>
+	<text in="immediately" delay="1" out-delay="1" pause="8" out="immediately">一丁 `)`b$4`($5 `0`kRed`k`n`0丂七  `c레드크루</text>
+</ticker>

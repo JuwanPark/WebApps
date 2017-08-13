@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ticker cols="16" rows="2" default-color="0" default-term="0"
+	default-blink-delay="1" default-animation-delay="2">
+	<text in="immediately" delay="1" out-delay="1" pause="8" out="immediately">`z
+		`z섹시`b$0`2포텐`c$b`g`g`0$a`a폭발`n`z
+		`z`0`k&gt;&gt;&gt;`k `c이.강.용 `0`k&lt;&lt;&lt;`k</text>
+	<text in="immediately" delay="1" out-delay="1" pause="8" out="immediately">`z
+		`zSexy`b$0`c$b`g`g`0$a`k`8*`aBooM`8*`k`c$b`g`g`0$a`n`z
+		`z`0`k&gt;&gt;&gt;`k `c이.강.용 `0`k&lt;&lt;&lt;`k</text>
+</ticker>
