@@ -48,7 +48,8 @@ $(document).ready(function() {
 	$("#ledcontainer").dblclick(function() {  underscroll();  } );
 	
 	$(".textchange").click(function() {
-		$("#ledframe").attr('src', 'core.html?data=xml/' + $(this).attr("data-filename") + '.xml');
+		//$("#ledframe").attr('src', 'core.html?data=xml/' + $(this).attr("data-filename") + '.xml');
+		window.ledframe.location.replace('core.html?data=xml/' + $(this).attr("data-filename") + '.xml');
 		forcescroll();
 	});
 
