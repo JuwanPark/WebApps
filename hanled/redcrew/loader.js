@@ -7,16 +7,16 @@ function wresize () {
 	
 	$("#ledcontainer").css("height", $(window).innerHeight() );
 	$("#ledframe").css("left", ( $("#ledcontainer").outerWidth() -
-		parseInt($("#ledcontainer").css("padding") ) * 2 - 512) / 2) ;
+		parseInt($("#ledcontainer").css("padding") ) * 2 - TickerWidth) / 2) ;
 	$("#ledframe").css("top", ( $("#ledcontainer").outerHeight() -
-		parseInt($("#ledcontainer").css("padding") ) * 2 - 128) / 2) ;
+		parseInt($("#ledcontainer").css("padding") ) * 2 - TickerHeight) / 2) ;
 	
 	if ($("#ledrotate").val() == '90deg' || $("#ledrotate").val() == '270deg') {
-		var zoomratio = Math.min( $("#ledcontainer").outerHeight() / 512,
-			$("#ledcontainer").outerWidth() / 128 );
+		var zoomratio = Math.min( $("#ledcontainer").outerHeight() / TickerWidth,
+			$("#ledcontainer").outerWidth() / TickerHeight );
 	} else {
-		var zoomratio = Math.min( $("#ledcontainer").outerWidth() / 512,
-			$("#ledcontainer").outerHeight() / 128 );
+		var zoomratio = Math.min( $("#ledcontainer").outerWidth() / TickerWidth,
+			$("#ledcontainer").outerHeight() / TickerHeight );
 	}
 
 	$("#ledframe").css({

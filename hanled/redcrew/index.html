@@ -6,6 +6,14 @@
 	<title>Red Crew LED</title>
 	<link rel="stylesheet" href="index.css" />
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script>
+		var TickerCols = 16, TickerRows = 2; // Modify
+		var TickerWidth = TickerCols * 32, TickerHeight = TickerRows * 64;
+		$(document).ready(function(){
+			$('#ledframe').attr('width', TickerWidth);
+			$('#ledframe').attr('height', TickerHeight);
+		});
+	</script>
 	<script src="loader.js"></script>
 </head>
 <body>
@@ -17,7 +25,7 @@
 				<h2>Red Crew LED</h2>
 			</div>
 			<div id="ledcontainer" class="width100">
-				<iframe name="ledframe" id="ledframe" src="core.html?data=redcrew.xml" width="512" height="128"
+				<iframe name="ledframe" id="ledframe" src="core.html?data=xml/redcrew.xml" width="512" height="128"
 					style=""></iframe>
 			</div>
 			<div id="undercontainer" class="width100">
